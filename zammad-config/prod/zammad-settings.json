@@ -58,7 +58,7 @@
       "adapter": "Auth::Backend::Internal"
     },
     "0007_postmaster_filter_follow_up_check": "Channel::Filter::FollowUpCheck",
-    "user_show_password_login": false,
+    "user_show_password_login": true,
     "auth_developer": {
       "priority": 2,
       "adapter": "Auth::Backend::Developer"
