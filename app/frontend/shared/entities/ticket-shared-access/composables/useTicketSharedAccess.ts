@@ -46,7 +46,7 @@ interface SharedAccessApiResponse {
 }
 
 export const useTicketSharedAccess = (ticket: Ref<TicketById | undefined>) => {
-  const { isTicketCustomer } = useTicketView(ticket)
+  const { canShareTicket, isTicketAgent } = useTicketView(ticket)
   const session = useSessionStore()
   const { notify } = useNotifications()
 
@@ -54,7 +54,7 @@ export const useTicketSharedAccess = (ticket: Ref<TicketById | undefined>) => {
   const isLoadingList = ref(false)
   const isLoadingAction = ref(false)
 
-  const canManageSharedAccess = computed(() => isTicketCustomer.value)
+  const canManageSharedAccess = computed(() => canShareTicket.value)
 
   const isLoading = computed(() => isLoadingList.value || isLoadingAction.value)
 
@@ -221,10 +221,13 @@ export const useTicketSharedAccess = (ticket: Ref<TicketById | undefined>) => {
 
     const currentUserId = getIdFromGraphQLId(session.userId)
 
-    // Ticket owner can remove anyone
+    // Admins and agents with access to the ticket can remove anyone.
+    if (session.hasPermission('admin') || isTicketAgent.value) return true
+
+    // Ticket owner (submitting customer) can remove anyone.
     if (ticket.value.customer?.internalId === currentUserId) return true
 
-    // Shared users can only remove themselves
+    // Shared customers can only remove themselves.
     return sharedUser.user_id === currentUserId
   }
 

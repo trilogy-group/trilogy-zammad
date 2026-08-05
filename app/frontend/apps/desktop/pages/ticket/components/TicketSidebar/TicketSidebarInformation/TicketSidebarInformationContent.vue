@@ -31,7 +31,7 @@ const { ticket } = useTicketInformation()
 
 const ticketLinksInstance = useTemplateRef('ticket-links')
 
-const { isTicketAgent, isTicketCustomer, isTicketEditable } = useTicketView(ticket)
+const { isTicketAgent, isTicketEditable, canShareTicket } = useTicketView(ticket)
 
 const ticketMergeFlyoutName = 'ticket-merge'
 const ticketChangeCustomerFlyoutName = 'ticket-change-customer'
@@ -91,7 +91,7 @@ const actions = computed<MenuItem[]>(() => [
     key: ticketShareFlyoutName,
     label: __('Share'),
     icon: 'user',
-    show: () => isTicketCustomer.value,
+    show: () => canShareTicket.value,
     onClick: () =>
       openTicketShareFlyout({
         ticket,

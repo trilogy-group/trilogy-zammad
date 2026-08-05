@@ -59,4 +59,24 @@ describe('useTicketView', () => {
 
     expect(isTicketEditable.value).toBe(false)
   })
+
+  it('check canShareTicket for parties to the ticket', () => {
+    ticket.value = ticketDefault
+
+    // Neither agent nor customer -> cannot share.
+    mockPermissions([])
+    ticket.value!.policy.agentReadAccess = false
+    const { canShareTicket } = useTicketView(ticket)
+    expect(canShareTicket.value).toBe(false)
+
+    // Agent with group access (agentReadAccess) -> can share.
+    mockPermissions(['ticket.agent'])
+    ticket.value!.policy.agentReadAccess = true
+    expect(canShareTicket.value).toBe(true)
+
+    // Customer party (no agent read access) -> can share.
+    mockPermissions(['ticket.customer'])
+    ticket.value!.policy.agentReadAccess = false
+    expect(canShareTicket.value).toBe(true)
+  })
 })

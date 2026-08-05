@@ -39,17 +39,9 @@ class TicketSharedAccessesController < ApplicationController
 
   # DELETE /api/v1/ticket_shared_accesses/:id
   def destroy
-    if current_user.permissions?('admin')
-      # Admins can remove any shared access (for API/automation purposes)
-      shared_access = Ticket::SharedAccess.find(params[:id])
-    else
-      # Customers can only remove shared accesses for tickets they own or have access to
-      accessible_ticket_ids = Ticket.left_joins(:shared_accesses)
-                                    .where('tickets.customer_id = :user_id OR ticket_shared_accesses.user_id = :user_id', user_id: current_user.id)
-                                    .distinct
-                                    .pluck(:id)
-      shared_access = Ticket::SharedAccess.where(ticket_id: accessible_ticket_ids).find(params[:id])
-    end
+    # Authorization (who may remove which share) is enforced by
+    # Controllers::TicketSharedAccessesControllerPolicy#destroy? before this action runs.
+    shared_access = Ticket::SharedAccess.find(params[:id])
 
     shared_access.destroy!
 
@@ -139,18 +131,10 @@ class TicketSharedAccessesController < ApplicationController
   end
 
   def ticket
-    @ticket ||= begin
-      # Admins can access any ticket (for API/automation purposes)
-      if current_user.permissions?('admin')
-        Ticket.find(params[:ticket_id])
-      else
-        # Customers can only access tickets they own or have shared access to
-        accessible_tickets = Ticket.left_joins(:shared_accesses)
-                                   .where('tickets.customer_id = :user_id OR ticket_shared_accesses.user_id = :user_id', user_id: current_user.id)
-                                   .distinct
-        accessible_tickets.find(params[:ticket_id])
-      end
-    end
+    # Access is authorized by Controllers::TicketSharedAccessesControllerPolicy
+    # (index?/create?/search? all require the current user to be a party to the ticket
+    # via TicketPolicy#show?), enforced by `authenticate_and_authorize!` before the action.
+    @ticket ||= Ticket.find(params[:ticket_id]) # nosemgrep: ruby.rails.security.brakeman.check-unscoped-find.check-unscoped-find
   rescue ActiveRecord::RecordNotFound
     raise Exceptions::UnprocessableEntity, __('Ticket not found.')
   end

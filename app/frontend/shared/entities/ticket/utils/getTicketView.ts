@@ -14,12 +14,17 @@ export const getTicketView = (ticket: TicketById) => {
 
   const isTicketAgent = ticket.policy.agentReadAccess
 
+  // Anyone who is a party to the ticket may share it with another customer:
+  // agents with group access, or customers (owner / shared-with).
+  const canShareTicket = isTicketAgent || isTicketCustomer
+
   const ticketView: TicketView = isTicketAgent ? 'agent' : 'customer'
 
   return {
     isTicketAgent,
     isTicketCustomer,
     isTicketEditable,
+    canShareTicket,
     ticketView,
   }
 }

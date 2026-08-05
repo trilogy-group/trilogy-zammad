@@ -31,7 +31,8 @@ const route = useRoute()
 const router = useRouter()
 
 const ticketReactive = toRef(props, 'ticket')
-const { isTicketAgent, isTicketEditable, isTicketCustomer } = useTicketView(ticketReactive)
+const { isTicketAgent, isTicketEditable, canShareTicket } =
+  useTicketView(ticketReactive)
 
 const { autocompleteRef, gqlQuery, openMergeTicketsDialog } = useTicketsMerge(ticketReactive, () =>
   closeDialog(props.name),
@@ -89,7 +90,7 @@ const topButtons = computed(() =>
     {
       label: __('Share ticket'),
       icon: 'user',
-      hidden: !isTicketCustomer.value,
+      hidden: !canShareTicket.value,
       onAction: showShareTicket,
     },
     {
