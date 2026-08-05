@@ -132,8 +132,9 @@ class TicketSharedAccessesController < ApplicationController
 
   def ticket
     # Access is authorized by Controllers::TicketSharedAccessesControllerPolicy
-    # (index?/create?/search? all require the current user to be a party to the ticket).
-    @ticket ||= Ticket.find(params[:ticket_id])
+    # (index?/create?/search? all require the current user to be a party to the ticket
+    # via TicketPolicy#show?), enforced by `authenticate_and_authorize!` before the action.
+    @ticket ||= Ticket.find(params[:ticket_id]) # nosemgrep: ruby.rails.security.brakeman.check-unscoped-find.check-unscoped-find
   rescue ActiveRecord::RecordNotFound
     raise Exceptions::UnprocessableEntity, __('Ticket not found.')
   end
