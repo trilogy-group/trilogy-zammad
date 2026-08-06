@@ -247,7 +247,7 @@
     {
       "name": "Agent restrictions: Make customer read-only",
       "object": "Ticket",
-      "active": true,
+      "active": false,
       "stop_after_match": false,
       "changeable": true,
       "priority": 790,
