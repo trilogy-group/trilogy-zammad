@@ -126,13 +126,14 @@ class SidebarTicket extends App.Controller
           name:     'customer-change'
           callback: @changeCustomer
         )
-    if @ticket.currentView() is 'customer'
-      @item.sidebarActions = @item.sidebarActions || []
-      @item.sidebarActions.push(
-        title:    __('Share')
-        name:     'ticket-share'
-        callback: @showTicketShare
-      )
+    # Anyone who can access the ticket (agent with group access or customer party)
+    # may share it with another customer.
+    @item.sidebarActions = @item.sidebarActions || []
+    @item.sidebarActions.push(
+      title:    __('Share')
+      name:     'ticket-share'
+      callback: @showTicketShare
+    )
     @item
 
   reload: (args) =>

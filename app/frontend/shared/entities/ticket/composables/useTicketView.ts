@@ -12,6 +12,7 @@ export const useTicketView = (ticket: Ref<TicketById | undefined>) => {
   const isTicketEditable = computed(() => !!view.value?.isTicketEditable)
   const isTicketCustomer = computed(() => !!view.value?.isTicketCustomer)
   const isTicketAgent = computed(() => !!view.value?.isTicketAgent)
+  const canShareTicket = computed(() => !!view.value?.canShareTicket)
 
-  return { isTicketAgent, isTicketCustomer, isTicketEditable }
+  return { isTicketAgent, isTicketCustomer, isTicketEditable, canShareTicket }
 }

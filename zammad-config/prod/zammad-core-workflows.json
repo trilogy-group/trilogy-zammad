@@ -261,7 +261,7 @@
           "set_readonly": true
         }
       },
-      "active": true,
+      "active": false,
       "stop_after_match": false,
       "changeable": true,
       "priority": 790

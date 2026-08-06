@@ -33,8 +33,11 @@ module Gql::Mutations
     private
 
     def authorize_share!(ticket, user)
-      return if ticket.customer_id == user.id
-      return if ::Ticket::SharedAccess.shared_with?(ticket, user)
+      # The ticket was already loaded through `show?` above, so the current user
+      # is a party to it (admin, agent with group access, owner, or shared customer).
+      # Anyone who can access the ticket may share it with another customer.
+      return if user.permissions?('admin')
+      return if TicketPolicy.new(user, ticket).show?
 
       raise Exceptions::Forbidden, __('You are not authorized to share this ticket.')
     end
