@@ -1043,6 +1043,44 @@
       "active": true,
       "role_ids": [4],
       "user_ids": []
+    },
+    {
+      "name": "Open Tickets with Admin",
+      "link": "open_tickets_with_admin",
+      "prio": 4,
+      "condition": {
+        "ticket.owner_id": {
+          "operator": "is",
+          "value": ["6"]
+        },
+        "ticket.state_id": {
+          "operator": "is not",
+          "value": ["4", "14", "22"]
+        }
+      },
+      "order": {
+        "by": "updated_at",
+        "direction": "ASC"
+      },
+      "group_by": null,
+      "group_direction": null,
+      "organization_shared": false,
+      "out_of_office": false,
+      "view": {
+        "s": [
+          "number",
+          "title",
+          "customer",
+          "group",
+          "owner",
+          "state",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "active": true,
+      "role_ids": [4, 2],
+      "user_ids": []
     }
   ]
 }
