@@ -59,6 +59,20 @@ class Transaction::Notification
     @current_user ||= User.lookup(id: @item[:user_id]) || User.lookup(id: 1)
   end
 
+  # The Legal Agent bot (the intake platform's service account) posts internal
+  # QC / redline / triage notes on tickets. These are operational notes, not
+  # agent-to-agent communication, so the legal team should not be emailed or
+  # notified about them. The bot's user id differs per environment
+  # (prod/staging/local), but its login/email prefix is stable, so match on that
+  # rather than a hardcoded id. Matches the intake app's QC_AUTHOR convention
+  # (legal-agent@<env-domain>).
+  def legal_agent_bot_article?(article)
+    email = article.created_by&.email
+    return false if email.blank?
+
+    email.downcase.start_with?('legal-agent@')
+  end
+
   def perform
     # return if we run import mode
     if Setting.get('import_mode')
@@ -90,7 +104,12 @@ class Transaction::Notification
 
     # Check if this is an internal comment (agent inter-communication)
     if article&.internal
-      send_internal_comment_notification(article)
+      # Legal Agent bot notes (QC / redline / triage) are internal notes posted
+      # by the service account, not agent-to-agent communication. The legal team
+      # does not want an email/notification for every one of these operational
+      # notes, so suppress notifications for bot-authored internal articles.
+      # Human agent-to-agent internal notes still notify normally.
+      send_internal_comment_notification(article) if !legal_agent_bot_article?(article)
       return
     end
 
