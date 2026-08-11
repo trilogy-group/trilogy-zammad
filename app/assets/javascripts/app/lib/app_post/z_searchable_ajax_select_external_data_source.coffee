@@ -62,12 +62,36 @@ class App.ExternalDataSourceAjaxSelect extends App.SearchableAjaxSelect
     else if @hasSubmenu @attribute.options
       @attribute.valueName = @getName(@attribute.value, @attribute.options)
 
+  # Extract the human-readable name from an external-source field's live form
+  # value. ControllerForm.params strips the '{json}' prefix and JSON-parses the
+  # value, so it arrives as an OBJECT ({value,label}) under the PLAIN key
+  # ('li_business_unit'). Tolerate object, JSON string, or plain string.
+  liveName: (raw) ->
+    return '' unless raw
+    if typeof raw is 'object'
+      return (raw.value ? raw.label) or ''
+    if typeof raw is 'string' and raw.charAt(0) is '{'
+      try
+        obj = JSON.parse(raw)
+        return (obj?.value ? obj?.label) or ''
+      catch
+        return ''
+    raw
+
   cacheKey: =>
     objectName    = @options.attribute.objectName
     attributeName = @options.attribute.attributeName or @options.attribute.nameRaw
     query         = @input.val()
 
-    "#{objectName}+#{attributeName}+#{query}"
+    # For the cascading product field, include the LIVE Business Unit in the
+    # cache key so changing the BU refetches instead of serving the previous
+    # BU's cached options. Read from the LIVE form (ControllerForm.params), never
+    # the stale @delegate.params snapshot, or the cache key lags the real BU.
+    bu = ''
+    if attributeName is 'li_product' and @delegate and @delegate.form
+      bu = @liveName(App.ControllerForm.params(@delegate.form)?.li_business_unit)
+
+    "#{objectName}+#{attributeName}+#{query}+#{bu}"
 
   ajaxAttributes: =>
     objectName     = @options.attribute.objectName
@@ -83,6 +107,20 @@ class App.ExternalDataSourceAjaxSelect extends App.SearchableAjaxSelect
 
       if params.customer_id
         search_context.customer_id = params.customer_id
+
+      # Forward the LIVE (possibly unsaved) Business Unit so a cascading
+      # search_url (li_product filtered by #{ticket.li_business_unit}) reacts to
+      # the BU the agent just picked WITHOUT needing a save.
+      # NOTE 1: the field renames @attribute.name to '{json}li_product' at render,
+      #   so match on the un-prefixed nameRaw (NOT .name), or this never fires.
+      # NOTE 2: on an existing ticket @delegate.params is a STALE snapshot (it has
+      #   the previously-saved BU), so read the BU from the LIVE form via
+      #   ControllerForm.params, never from @delegate.params.
+      if (@options.attribute.nameRaw ? @options.attribute.name) is 'li_product' and @delegate.form
+        liveParams = App.ControllerForm.params(@delegate.form)
+        buRaw = liveParams?.li_business_unit
+        if buVal = @liveName(buRaw)
+          search_context.li_business_unit_live = buVal
 
     {
       id:   @options.attribute.id
@@ -115,13 +153,40 @@ class App.ExternalDataSourceAjaxSelect extends App.SearchableAjaxSelect
       return [] if @attribute.multiple
       {}
 
+  # Cascade UX: the BU field overrides selectValue (the click-commit point) to
+  # clear a stale sibling Product on change. clearSiblingProduct does the work.
   setShadowValue: (newValue) =>
     newValue.value = newValue.value[0] if _.isArray(newValue?.value)
 
     @shadowInput.val(JSON.stringify(newValue))
       .trigger('change')
 
+  clearSiblingProduct: =>
+    form = @el.closest('form')
+    return unless form and form.length
+    productShadow = form.find('input[name="{json}li_product"]')
+    return unless productShadow.length
+
+    try
+      current = JSON.parse(productShadow.val() or '{}')
+    catch
+      current = {}
+    return if _.isEmpty(current)
+
+    productShadow.val('{}').trigger('change')
+    container = productShadow.closest('.searchableSelect')
+    if container.length
+      container.find('input.searchableSelect-main').val('').removeAttr('title')
+      container.find('.js-clear').addClass('hide')
+    App.Log.debug('ExternalDataSource', 'cleared li_product because li_business_unit changed')
+
   selectValue: (key, value, displayName) =>
+    # BU field only: capture the PREVIOUS BU so we can detect a real change and
+    # clear the now-stale sibling Product (cascade mismatch guard).
+    if @attribute.nameRaw is 'li_business_unit'
+      prev = @getShadowValue()
+      prevName = prev and (prev.value or prev.label)
+
     displayName = value
 
     super
@@ -132,6 +197,10 @@ class App.ExternalDataSourceAjaxSelect extends App.SearchableAjaxSelect
 
     @setShadowValue(value: key, label: value)
     @toggleClear()
+
+    # After a BU change commits, clear the sibling Product if the BU actually changed.
+    if @attribute.nameRaw is 'li_business_unit'
+      @clearSiblingProduct() if prevName and value and prevName isnt value
 
   onKeyUp: =>
     return if @input.val().trim() isnt '' || @attribute.multiple

@@ -34,6 +34,22 @@ RSpec.describe Gql::Queries::AutocompleteSearch::ObjectAttributeExternalDataSour
         expect(gql.result.data).to eq(mocked_payload)
         expect(ExternalDataSource).to have_received(:new).with(include(render_context: { ticket: ticket, user: agent }))
       end
+
+      context 'with a live business unit (cascade)' do
+        let(:variables) do
+          { input: { 'object' => attribute.object_lookup.name, attributeName: attribute.name, query: 'abc', templateRenderContext: { ticketId: gql.id(ticket), liBusinessUnitLive: 'CloudFix' } } }
+        end
+
+        it 'accepts the live BU argument and still resolves (override applies where the column exists)' do
+          gql.execute(query, variables: variables)
+          expect(gql.result.data).to eq(mocked_payload)
+          # The override no-ops in the bare test schema (no li_business_unit column),
+          # so just assert the ticket was carried into the render context.
+          expect(ExternalDataSource).to have_received(:new) do |args|
+            expect(args[:render_context][:ticket]).to be_a(Ticket)
+          end
+        end
+      end
     end
 
     context 'when called for a nonexisting object attribute' do
