@@ -80,7 +80,8 @@ class ExternalDataSourceController < ApplicationController
 
     # li_business_unit is an autocompletion_ajax_external_data_source (jsonb
     # {value,label}) column; assign the shape the template renderer stringifies
-    # to the human-readable name.
-    result[:ticket].li_business_unit = { 'value' => live_bu, 'label' => live_bu }
+    # to the human-readable name. Guard with respond_to? for unmigrated schemas.
+    ticket = result[:ticket]
+    ticket.li_business_unit = { 'value' => live_bu, 'label' => live_bu } if ticket.respond_to?(:li_business_unit=)
   end
 end

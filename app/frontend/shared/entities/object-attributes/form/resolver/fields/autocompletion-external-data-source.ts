@@ -23,7 +23,7 @@ export class FieldResolverAutocompletionExternalDataSource extends FieldResolver
           const templateRenderContext: Record<string, JsonValue> = {}
 
           switch (this.object) {
-            case EnumObjectManagerObjects.Ticket:
+            case EnumObjectManagerObjects.Ticket: {
               if (entityObject) {
                 templateRenderContext.customerId = entityObject.customer?.id
               }
@@ -37,7 +37,24 @@ export class FieldResolverAutocompletionExternalDataSource extends FieldResolver
                 }
               }
 
+              // BU -> Product cascade: forward the LIVE (possibly unsaved) Business
+              // Unit so the product lookup's #{ticket.li_business_unit} reflects the
+              // agent's current pick, not the saved ticket value. The BU field stores
+              // a {value,label} object (complexValue); read its name.
+              if (this.attributeConfig.name === 'li_product') {
+                const buNode = getNodeByName(formId, 'li_business_unit')
+                const buValue = buNode?.value
+                const buName =
+                  buValue && typeof buValue === 'object'
+                    ? ((buValue as { value?: string; label?: string }).value ??
+                      (buValue as { label?: string }).label)
+                    : (buValue as string | undefined)
+
+                if (buName) templateRenderContext.liBusinessUnitLive = buName
+              }
+
               return templateRenderContext
+            }
             case EnumObjectManagerObjects.User:
             case EnumObjectManagerObjects.Organization:
             case EnumObjectManagerObjects.Group:
