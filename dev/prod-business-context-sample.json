@@ -1,0 +1,743 @@
+{
+  "_comment": "Curated from live PROD (names + is_active only; NO EIN/officers/ownership). Purpose: make LOCAL reproduce the data SHAPE of prod/staging so migrations and dropdown behaviour can be rehearsed against realistic values. Regenerate the FULL set with dev/regenerate-business-context-sample.py.",
+  "_prod_shape_reference": {
+    "entities": "339 total / 261 active",
+    "business_units": "76 total / 63 active",
+    "products": "428 total / 253 active",
+    "note": "case-variant name pairs and legitimately-deactivated rows are the edge cases that matter"
+  },
+  "entities": [
+    {
+      "name": "150 W85TH AC, LLC",
+      "is_active": true
+    },
+    {
+      "name": "2hr Learning AL, Inc.",
+      "is_active": true
+    },
+    {
+      "name": "2HR Learning AL, Inc.",
+      "is_active": false
+    },
+    {
+      "name": "2hr Learning FL, Inc.",
+      "is_active": true
+    },
+    {
+      "name": "2HR Learning FL, Inc.",
+      "is_active": false
+    },
+    {
+      "name": "2hr Learning Global, Inc.",
+      "is_active": true
+    },
+    {
+      "name": "2HR Learning Global, Inc.",
+      "is_active": false
+    },
+    {
+      "name": "2hr Learning, LLC",
+      "is_active": true
+    },
+    {
+      "name": "2HR Learning, LLC",
+      "is_active": false
+    },
+    {
+      "name": "2hr Learning TX, Inc.",
+      "is_active": true
+    },
+    {
+      "name": "2HR Learning TX, Inc.",
+      "is_active": false
+    },
+    {
+      "name": "2hr Learning Investments, LLC",
+      "is_active": true
+    },
+    {
+      "name": "2hr Learning SC, Inc.",
+      "is_active": true
+    },
+    {
+      "name": "2HL School 78723, LLC",
+      "is_active": false
+    },
+    {
+      "name": "Avolin, LLC",
+      "is_active": false
+    },
+    {
+      "name": "Khoros",
+      "is_active": false
+    },
+    {
+      "name": "Khoros Community",
+      "is_active": false
+    },
+    {
+      "name": "Legacy of Education, Inc.",
+      "is_active": false
+    },
+    {
+      "name": "Zax Capital, Inc",
+      "is_active": false
+    },
+    {
+      "name": "Alpha School 37204, LLC",
+      "is_active": false
+    },
+    {
+      "name": "Other (Use only if entity is not listed)",
+      "is_active": false
+    },
+    {
+      "name": "Alpha School, LLC",
+      "is_active": true
+    },
+    {
+      "name": "Alpha School 33141 II, LLC",
+      "is_active": true
+    },
+    {
+      "name": "Alpha School 78701, LLC",
+      "is_active": true
+    },
+    {
+      "name": "Alpha Holdings, Inc.",
+      "is_active": true
+    },
+    {
+      "name": "Alpha World Ventures, LLC",
+      "is_active": true
+    },
+    {
+      "name": "Alpine Lakes Software S\u00e0rl",
+      "is_active": true
+    },
+    {
+      "name": "ALTSCHOOL II, LLC",
+      "is_active": true
+    },
+    {
+      "name": "Andrew S. Price",
+      "is_active": true
+    },
+    {
+      "name": "Aurea Software, LLC",
+      "is_active": true
+    },
+    {
+      "name": "Aurea SAS",
+      "is_active": true
+    },
+    {
+      "name": "Contently, Inc.",
+      "is_active": true
+    },
+    {
+      "name": "Crossover Markets, Inc.",
+      "is_active": true
+    },
+    {
+      "name": "DevFactory FZ-LLC",
+      "is_active": true
+    },
+    {
+      "name": "ESW Operations, LLC",
+      "is_active": true
+    },
+    {
+      "name": "ESW Operations, LLC Norway (branch)",
+      "is_active": true
+    },
+    {
+      "name": "Gifted & Talented Scholarships",
+      "is_active": true
+    },
+    {
+      "name": "gt.school 78626, LLC",
+      "is_active": true
+    },
+    {
+      "name": "IgniteTech Holdings, LLC",
+      "is_active": true
+    },
+    {
+      "name": "Jive Software, LLC",
+      "is_active": true
+    },
+    {
+      "name": "Khoros International, LLC - French branch",
+      "is_active": true
+    },
+    {
+      "name": "Khoros, LLC",
+      "is_active": true
+    },
+    {
+      "name": "Marin Software, LLC",
+      "is_active": true
+    },
+    {
+      "name": "Quark Software, Inc.",
+      "is_active": true
+    },
+    {
+      "name": "Skyvera, LLC",
+      "is_active": true
+    },
+    {
+      "name": "Sococo, LLC",
+      "is_active": true
+    },
+    {
+      "name": "SHAREHOLDERS",
+      "is_active": true
+    },
+    {
+      "name": "Trilogy Enterprises, Inc.",
+      "is_active": true
+    },
+    {
+      "name": "Trilogy, LLC",
+      "is_active": true
+    },
+    {
+      "name": "Versata Software, LLC",
+      "is_active": true
+    },
+    {
+      "name": "Virtasant, LLC",
+      "is_active": true
+    },
+    {
+      "name": "Zax Capital, Inc.",
+      "is_active": true
+    },
+    {
+      "name": "Tivian XI GmbH",
+      "is_active": true
+    },
+    {
+      "name": "QuarkXpress Publishing R&D (India) Private Limited",
+      "is_active": true
+    },
+    {
+      "name": "Unbound Academic Institute (PA) Charter School, Inc.",
+      "is_active": true
+    },
+    {
+      "name": "abc123alerttest",
+      "is_active": false
+    },
+    {
+      "name": "alert test-entity[delete_\"me\")]",
+      "is_active": false
+    },
+    {
+      "name": "YYYYY, LLC",
+      "is_active": true
+    },
+    {
+      "name": "jasraj",
+      "is_active": false
+    }
+  ],
+  "business_units": [
+    {
+      "name": "2HR Learning",
+      "is_active": true
+    },
+    {
+      "name": "A&I",
+      "is_active": true
+    },
+    {
+      "name": "Academics",
+      "is_active": true
+    },
+    {
+      "name": "AI Engineering & Builder",
+      "is_active": true
+    },
+    {
+      "name": "Alpha Anywhere",
+      "is_active": true
+    },
+    {
+      "name": "Alpha Camps",
+      "is_active": true
+    },
+    {
+      "name": "Alpha/GT School",
+      "is_active": false
+    },
+    {
+      "name": "Alpha University",
+      "is_active": false
+    },
+    {
+      "name": "Alpha World School",
+      "is_active": false
+    },
+    {
+      "name": "Alpha World Ventures",
+      "is_active": true
+    },
+    {
+      "name": "Aurea e-Commerce",
+      "is_active": true
+    },
+    {
+      "name": "Canopy",
+      "is_active": true
+    },
+    {
+      "name": "Central Finance",
+      "is_active": true
+    },
+    {
+      "name": "Central Support",
+      "is_active": true
+    },
+    {
+      "name": "CloudFix",
+      "is_active": true
+    },
+    {
+      "name": "Contently",
+      "is_active": false
+    },
+    {
+      "name": "CopperTree",
+      "is_active": false
+    },
+    {
+      "name": "Core",
+      "is_active": true
+    },
+    {
+      "name": "Crossover",
+      "is_active": true
+    },
+    {
+      "name": "DevFactory",
+      "is_active": true
+    },
+    {
+      "name": "GFI",
+      "is_active": true
+    },
+    {
+      "name": "GT",
+      "is_active": true
+    },
+    {
+      "name": "IgniteTech",
+      "is_active": true
+    },
+    {
+      "name": "Import",
+      "is_active": true
+    },
+    {
+      "name": "Jigsaw",
+      "is_active": false
+    },
+    {
+      "name": "JigTree",
+      "is_active": true
+    },
+    {
+      "name": "Management Restructuring",
+      "is_active": true
+    },
+    {
+      "name": "OTHER",
+      "is_active": true
+    },
+    {
+      "name": "Renewals",
+      "is_active": false
+    },
+    {
+      "name": "SaaS",
+      "is_active": true
+    },
+    {
+      "name": "Skyvera",
+      "is_active": true
+    },
+    {
+      "name": "Strata",
+      "is_active": true
+    },
+    {
+      "name": "The Alpha Fund",
+      "is_active": true
+    },
+    {
+      "name": "Totogi",
+      "is_active": true
+    },
+    {
+      "name": "Virtasant",
+      "is_active": true
+    },
+    {
+      "name": "Virtual Charter Schools",
+      "is_active": true
+    },
+    {
+      "name": "WPB",
+      "is_active": true
+    },
+    {
+      "name": "Zax",
+      "is_active": true
+    }
+  ],
+  "products": [
+    {
+      "name": "2hr Learning Evangelism",
+      "business_unit": "2HR Learning",
+      "is_active": true
+    },
+    {
+      "name": "Edu Media",
+      "business_unit": "2HR Learning",
+      "is_active": true
+    },
+    {
+      "name": "Schools Marketing",
+      "business_unit": "2HR Learning",
+      "is_active": true
+    },
+    {
+      "name": "AWORK Product",
+      "business_unit": "Crossover",
+      "is_active": true
+    },
+    {
+      "name": "RemoteU",
+      "business_unit": "Crossover",
+      "is_active": true
+    },
+    {
+      "name": "XO 3rd Party",
+      "business_unit": "Crossover",
+      "is_active": true
+    },
+    {
+      "name": "Contently Consulting",
+      "business_unit": "Canopy",
+      "is_active": true
+    },
+    {
+      "name": "Contently Product",
+      "business_unit": "Canopy",
+      "is_active": true
+    },
+    {
+      "name": "Kayako Product",
+      "business_unit": "Canopy",
+      "is_active": true
+    },
+    {
+      "name": "Marin Product",
+      "business_unit": "Canopy",
+      "is_active": true
+    },
+    {
+      "name": "Aurea CloudFix Product",
+      "business_unit": "CloudFix",
+      "is_active": true
+    },
+    {
+      "name": "Central Finance",
+      "business_unit": "Central Finance",
+      "is_active": true
+    },
+    {
+      "name": "Central Support",
+      "business_unit": "Central Support",
+      "is_active": true
+    },
+    {
+      "name": "Core",
+      "business_unit": "Core",
+      "is_active": true
+    },
+    {
+      "name": "Upland",
+      "business_unit": "DevFactory",
+      "is_active": true
+    },
+    {
+      "name": "Academics",
+      "business_unit": "Academics",
+      "is_active": true
+    },
+    {
+      "name": "A&I",
+      "business_unit": "A&I",
+      "is_active": true
+    },
+    {
+      "name": "Alpha Anywhere",
+      "business_unit": "Alpha Anywhere",
+      "is_active": true
+    },
+    {
+      "name": "Alpha Camps",
+      "business_unit": "Alpha Camps",
+      "is_active": true
+    },
+    {
+      "name": "Alpha World Ventures",
+      "business_unit": "Alpha World Ventures",
+      "is_active": true
+    },
+    {
+      "name": "Acorn Product",
+      "business_unit": "IgniteTech",
+      "is_active": true
+    },
+    {
+      "name": "Acorn Consulting",
+      "business_unit": "IgniteTech",
+      "is_active": true
+    },
+    {
+      "name": "AnswerHub Product",
+      "business_unit": "IgniteTech",
+      "is_active": true
+    },
+    {
+      "name": "Computron Product",
+      "business_unit": "IgniteTech",
+      "is_active": true
+    },
+    {
+      "name": "DNN Product",
+      "business_unit": "IgniteTech",
+      "is_active": true
+    },
+    {
+      "name": "Jive Product",
+      "business_unit": "IgniteTech",
+      "is_active": true
+    },
+    {
+      "name": "Khoros Product",
+      "business_unit": "IgniteTech",
+      "is_active": true
+    },
+    {
+      "name": "Olive Software Product",
+      "business_unit": "IgniteTech",
+      "is_active": true
+    },
+    {
+      "name": "Agemni Product",
+      "business_unit": "IgniteTech",
+      "is_active": false
+    },
+    {
+      "name": "Firm58 Product",
+      "business_unit": "IgniteTech",
+      "is_active": false
+    },
+    {
+      "name": "Ignite Local search Product",
+      "business_unit": "IgniteTech",
+      "is_active": false
+    },
+    {
+      "name": "Ignite Local Search Product",
+      "business_unit": "IgniteTech",
+      "is_active": true
+    },
+    {
+      "name": "Aurea Platform Product",
+      "business_unit": "JigTree",
+      "is_active": true
+    },
+    {
+      "name": "BroadVision Product",
+      "business_unit": "JigTree",
+      "is_active": true
+    },
+    {
+      "name": "Influitive Product",
+      "business_unit": "JigTree",
+      "is_active": true
+    },
+    {
+      "name": "Stratifyd Product",
+      "business_unit": "JigTree",
+      "is_active": true
+    },
+    {
+      "name": "Tivian Product",
+      "business_unit": "JigTree",
+      "is_active": true
+    },
+    {
+      "name": "Cloudsense Product",
+      "business_unit": "Skyvera",
+      "is_active": true
+    },
+    {
+      "name": "Kandy Product",
+      "business_unit": "Skyvera",
+      "is_active": true
+    },
+    {
+      "name": "NewNet Product",
+      "business_unit": "Skyvera",
+      "is_active": true
+    },
+    {
+      "name": "VoltDelta Product",
+      "business_unit": "Skyvera",
+      "is_active": true
+    },
+    {
+      "name": "GFI Product",
+      "business_unit": "GFI",
+      "is_active": true
+    },
+    {
+      "name": "Kerio Product",
+      "business_unit": "GFI",
+      "is_active": true
+    },
+    {
+      "name": "Strata",
+      "business_unit": "Strata",
+      "is_active": true
+    },
+    {
+      "name": "Microschools",
+      "business_unit": "Strata",
+      "is_active": true
+    },
+    {
+      "name": "Totogi",
+      "business_unit": "Totogi",
+      "is_active": true
+    },
+    {
+      "name": "TelcoDR",
+      "business_unit": "Totogi",
+      "is_active": true
+    },
+    {
+      "name": "Virtasant",
+      "business_unit": "Virtasant",
+      "is_active": true
+    },
+    {
+      "name": "Gigster",
+      "business_unit": "Virtasant",
+      "is_active": true
+    },
+    {
+      "name": "Quark Product",
+      "business_unit": "Zax",
+      "is_active": true
+    },
+    {
+      "name": "Quark Consulting",
+      "business_unit": "Zax",
+      "is_active": true
+    },
+    {
+      "name": "Novatio",
+      "business_unit": "Virtual Charter Schools",
+      "is_active": true
+    },
+    {
+      "name": "Betacamp Schools",
+      "business_unit": "Virtual Charter Schools",
+      "is_active": false
+    },
+    {
+      "name": "WPB",
+      "business_unit": "WPB",
+      "is_active": true
+    },
+    {
+      "name": "Alpha Fund",
+      "business_unit": "The Alpha Fund",
+      "is_active": true
+    },
+    {
+      "name": "Both Sides",
+      "business_unit": "The Alpha Fund",
+      "is_active": false
+    },
+    {
+      "name": "Khoros Import",
+      "business_unit": "Import",
+      "is_active": true
+    },
+    {
+      "name": "Quark Import",
+      "business_unit": "Import",
+      "is_active": true
+    },
+    {
+      "name": "Khoros MR",
+      "business_unit": "Management Restructuring",
+      "is_active": true
+    },
+    {
+      "name": "SaaS Central",
+      "business_unit": "SaaS",
+      "is_active": true
+    },
+    {
+      "name": "GL Cleanup",
+      "business_unit": "OTHER",
+      "is_active": true
+    },
+    {
+      "name": "GT Schools",
+      "business_unit": "GT",
+      "is_active": true
+    },
+    {
+      "name": "GT Anywhere",
+      "business_unit": "GT",
+      "is_active": true
+    },
+    {
+      "name": "SLI Product",
+      "business_unit": "Aurea e-Commerce",
+      "is_active": true
+    },
+    {
+      "name": "Quantum Retail Product",
+      "business_unit": "Aurea e-Commerce",
+      "is_active": true
+    },
+    {
+      "name": "Aurea Legacy contract Product",
+      "business_unit": "Aurea e-Commerce",
+      "is_active": false
+    },
+    {
+      "name": "AI Engineering",
+      "business_unit": "AI Engineering & Builder",
+      "is_active": true
+    },
+    {
+      "name": "AI Builders",
+      "business_unit": "AI Engineering & Builder",
+      "is_active": true
+    }
+  ]
+}
