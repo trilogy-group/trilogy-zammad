@@ -50,33 +50,112 @@ end
 puts "=== li_* external-source migration (#{dry_run ? 'DRY RUN' : 'LIVE'}) ==="
 puts "intake lookup: #{intake_url}"
 
-FIELDS.each do |name, cfg|
+# ---------------------------------------------------------------------------
+# Lock safety.
+#
+# The column rewrite needs ACCESS EXCLUSIVE on `tickets`. On a LIVE Zammad the
+# table is read constantly (the scheduler alone polls
+# `SELECT MAX(tickets.updated_at)` every 1-3s, plus delayed_jobs churn), so the
+# ALTER usually cannot grab that lock immediately.
+#
+# What went wrong on prod (2026-08): with the server default `lock_timeout=0`
+# the ALTER waited FOREVER for the lock and was eventually killed by
+# `statement_timeout=2min` (PG::QueryCanceled). Worse, while an ALTER waits for
+# ACCESS EXCLUSIVE it QUEUES every subsequent query on that table behind it —
+# so a long wait degrades the whole help desk. Table size was never the issue
+# (1086 rows / ~3.6 MB rewrites in milliseconds).
+#
+# So: take the lock with a SHORT, BOUNDED wait and retry, instead of blocking.
+# Each attempt either grabs the lock and finishes fast, or gives up in a couple
+# of seconds and releases the queue before anyone notices.
+LOCK_TIMEOUT   = ENV.fetch('LI_LOCK_TIMEOUT', '3s')
+LOCK_ATTEMPTS  = ENV.fetch('LI_LOCK_ATTEMPTS', '25').to_i
+LOCK_BACKOFF_S = ENV.fetch('LI_LOCK_BACKOFF', '4').to_f
+
+def column_type(name)
+  ActiveRecord::Base.connection.select_value(
+    'select data_type from information_schema.columns ' \
+    "where table_name = 'tickets' and column_name = #{ActiveRecord::Base.connection.quote(name)}"
+  )
+end
+
+# Rewrite one column varchar -> jsonb, preserving legacy/off-list strings verbatim.
+# Idempotent: a column already jsonb is skipped, so a partial run is resumable.
+def convert_column!(name)
+  if column_type(name) == 'jsonb'
+    puts '  column already jsonb — skipping (resumable)'
+    return true
+  end
+
+  LOCK_ATTEMPTS.times do |i|
+    begin
+      ActiveRecord::Base.transaction do
+        # Bounded lock wait: fail fast rather than queue the whole table.
+        ActiveRecord::Base.connection.execute("SET LOCAL lock_timeout = '#{LOCK_TIMEOUT}'")
+        # The rewrite itself is fast; make sure a slow plan can't be killed midway.
+        ActiveRecord::Base.connection.execute('SET LOCAL statement_timeout = 0')
+        ActiveRecord::Base.connection.execute(<<~SQL.squish)
+          ALTER TABLE tickets ALTER COLUMN #{name} TYPE jsonb
+            USING CASE
+              WHEN #{name} IS NULL OR btrim(#{name}) = '' THEN '{}'::jsonb
+              ELSE jsonb_build_object('value', #{name}, 'label', #{name})
+            END
+        SQL
+      end
+      puts "  ✓ #{name} -> jsonb (attempt #{i + 1})"
+      return true
+    rescue ActiveRecord::LockWaitTimeout, ActiveRecord::StatementTimeout, ActiveRecord::QueryCanceled => e
+      puts "  … lock busy (attempt #{i + 1}/#{LOCK_ATTEMPTS}): #{e.class}"
+      sleep LOCK_BACKOFF_S
+    end
+  end
+
+  false
+end
+
+def migrate_field!(name, cfg, intake_url, intake_token, dry_run)
   attr = ObjectManager::Attribute.find_by(name: name, object_lookup_id: ObjectLookup.by_name('Ticket'))
-  abort "attribute #{name} not found" unless attr
+  abort "attribute #{name} not found" if !attr
   puts "\n--- #{name}: #{attr.data_type} -> autocompletion_ajax_external_data_source ---"
 
   new_option = build_data_option(intake_url, intake_token, cfg[:type], cfg[:extra])
   if dry_run
     puts '  would set data_type=autocompletion_ajax_external_data_source'
     puts "  search_url=#{new_option['search_url']}"
-    next
+    puts "  current column type=#{column_type(name)}"
+    return
+  end
+
+  # ⚠️ ORDER MATTERS: convert the COLUMN FIRST, then save the attribute definition.
+  #
+  # The original order (definition first, then ALTER) left prod in a broken state
+  # when the ALTER failed: li_legal_entity was declared an external-source dropdown
+  # while its column was still varchar, so the widget got plain strings and the
+  # field rendered BLANK for every agent. Doing the column first means a failure
+  # leaves the field as plain free text — exactly as it was — and the definition
+  # only ever advertises a shape the column can actually store.
+  if !convert_column!(name)
+    abort <<~MSG
+      ✗ #{name}: could not acquire ACCESS EXCLUSIVE on tickets after #{LOCK_ATTEMPTS} attempts.
+        NOTHING was changed for this field (definition untouched, column still #{column_type(name)}),
+        so the environment is consistent and safe to leave as-is.
+        Retry in a quieter window, or briefly stop the scheduler container to remove
+        the `SELECT MAX(tickets.updated_at)` polling that competes for the lock:
+          docker stop <proj>-zammad-scheduler-1
+          <re-run this script>
+          docker start <proj>-zammad-scheduler-1
+    MSG
   end
 
   # Bypass ONLY the type-change validator; run every other validation.
   attr.data_type = 'autocompletion_ajax_external_data_source'
   attr.data_option = new_option
   attr.save!(validate: false)
+  puts '  ✓ definition saved (data_type + search_url)'
+end
 
-  # Backfill the column to the jsonb {value,label} shape BEFORE the standard
-  # migration fires, preserving legacy/off-list strings verbatim.
-  ActiveRecord::Base.connection.execute(<<~SQL)
-    ALTER TABLE tickets ALTER COLUMN #{name} TYPE jsonb
-      USING CASE
-        WHEN #{name} IS NULL OR btrim(#{name}) = '' THEN '{}'::jsonb
-        ELSE jsonb_build_object('value', #{name}, 'label', #{name})
-      END;
-  SQL
-  puts "  backfilled tickets.#{name} to jsonb"
+FIELDS.each do |name, cfg|
+  migrate_field!(name, cfg, intake_url, intake_token, dry_run)
 end
 
 if dry_run
