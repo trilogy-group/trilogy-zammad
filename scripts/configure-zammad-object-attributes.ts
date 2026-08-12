@@ -66,7 +66,12 @@ async function main(): Promise<void> {
 
   // Fetch existing attributes to know which to update vs create
   const existing = await fetchJson<
-    Array<{ id: number; name: string; object: string }>
+    Array<{
+      id: number;
+      name: string;
+      object: string;
+      data_option?: Record<string, unknown>;
+    }>
   >(
     `${zammadUrl}/api/v1/object_manager_attributes`,
     { headers: authHeaders(token) },
@@ -76,6 +81,47 @@ async function main(): Promise<void> {
   const existingMap = new Map(
     existing.map((attr) => [`${attr.object}:${attr.name}`, attr.id])
   );
+
+  // Live data_option per attribute, so we can carry forward SECRETS that must not
+  // live in git (see SECRET_DATA_OPTION_KEYS below).
+  const existingDataOptions = new Map(
+    existing.map((attr) => [`${attr.object}:${attr.name}`, attr.data_option ?? {}])
+  );
+
+  // data_option keys that are credentials: they are deliberately absent from the
+  // committed JSON, so a verbatim PUT would WIPE them on the live attribute and
+  // silently break the field (e.g. an external-data-source dropdown would start
+  // getting 401 from the intake API). Carry the live value forward instead.
+  const SECRET_DATA_OPTION_KEYS = [
+    "bearer_token_auth",
+    "basic_auth_username",
+    "basic_auth_password",
+  ] as const;
+
+  const withPreservedSecrets = (attr: {
+    object: string;
+    name: string;
+    data_option?: Record<string, unknown>;
+  }) => {
+    const live = existingDataOptions.get(`${attr.object}:${attr.name}`);
+    if (!live || !attr.data_option) return attr;
+
+    const preserved: Record<string, unknown> = { ...attr.data_option };
+    let carried = 0;
+    for (const key of SECRET_DATA_OPTION_KEYS) {
+      // only carry forward when the config omits it AND the live side has one
+      if (preserved[key] === undefined && live[key] !== undefined && live[key] !== "") {
+        preserved[key] = live[key];
+        carried += 1;
+      }
+    }
+    if (carried === 0) return attr;
+
+    console.log(
+      `    ↳ ${attr.name}: preserved ${carried} secret data_option key(s) from live`
+    );
+    return { ...attr, data_option: preserved };
+  };
 
   let created = 0;
   let updated = 0;
@@ -93,7 +139,7 @@ async function main(): Promise<void> {
           {
             method: "PUT",
             headers: authHeaders(token),
-            body: JSON.stringify(attr),
+            body: JSON.stringify(withPreservedSecrets(attr)),
           },
           `PUT /api/v1/object_manager_attributes/${existingId} (${attr.name})`
         );

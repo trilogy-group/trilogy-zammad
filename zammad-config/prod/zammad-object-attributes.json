@@ -146,14 +146,14 @@
     {
       "name": "li_legal_entity",
       "display": "Legal Entity",
-      "data_type": "input",
+      "data_type": "autocompletion_ajax_external_data_source",
       "data_option": {
-        "type": "text",
-        "maxlength": 255,
         "null": true,
-        "default": "",
-        "options": {},
-        "relation": ""
+        "search_url": "https://legal-intake.ti.trilogy.com/api/v1/zammad/lookup?type=legal_entity&query=#{search.term}&limit=40",
+        "search_result_list_key": "result",
+        "search_result_value_key": "value",
+        "search_result_label_key": "label",
+        "linktemplate": ""
       },
       "data_option_new": {},
       "editable": true,
@@ -185,53 +185,14 @@
     {
       "name": "li_product",
       "display": "Product",
-      "data_type": "input",
+      "data_type": "autocompletion_ajax_external_data_source",
       "data_option": {
-        "type": "text",
-        "maxlength": 255,
         "null": true,
-        "default": "",
-        "options": {},
-        "relation": ""
-      },
-      "data_option_new": {},
-      "editable": true,
-      "internal": false,
-      "active": true,
-      "screens": {
-        "create_middle": {
-          "shown": true,
-          "required": false
-        },
-        "edit": {
-          "shown": true,
-          "required": false,
-          "ticket.agent": {
-            "shown": true
-          },
-          "ticket.customer": {
-            "shown": true
-          }
-        },
-        "view": {
-          "shown": true
-        }
-      },
-      "position": 1605,
-      "object": "Ticket",
-      "deletable": true
-    },
-    {
-      "name": "li_business_unit",
-      "display": "Business Unit",
-      "data_type": "input",
-      "data_option": {
-        "type": "text",
-        "maxlength": 255,
-        "null": true,
-        "default": "",
-        "options": {},
-        "relation": ""
+        "search_url": "https://legal-intake.ti.trilogy.com/api/v1/zammad/lookup?type=product&query=#{search.term}&limit=40&business_unit=#{ticket.li_business_unit}",
+        "search_result_list_key": "result",
+        "search_result_value_key": "value",
+        "search_result_label_key": "label",
+        "linktemplate": ""
       },
       "data_option_new": {},
       "editable": true,
@@ -257,6 +218,45 @@
         }
       },
       "position": 1606,
+      "object": "Ticket",
+      "deletable": true
+    },
+    {
+      "name": "li_business_unit",
+      "display": "Business Unit",
+      "data_type": "autocompletion_ajax_external_data_source",
+      "data_option": {
+        "null": true,
+        "search_url": "https://legal-intake.ti.trilogy.com/api/v1/zammad/lookup?type=business_unit&query=#{search.term}&limit=40",
+        "search_result_list_key": "result",
+        "search_result_value_key": "value",
+        "search_result_label_key": "label",
+        "linktemplate": ""
+      },
+      "data_option_new": {},
+      "editable": true,
+      "internal": false,
+      "active": true,
+      "screens": {
+        "create_middle": {
+          "shown": true,
+          "required": false
+        },
+        "edit": {
+          "shown": true,
+          "required": false,
+          "ticket.agent": {
+            "shown": true
+          },
+          "ticket.customer": {
+            "shown": true
+          }
+        },
+        "view": {
+          "shown": true
+        }
+      },
+      "position": 1605,
       "object": "Ticket",
       "deletable": true
     },
@@ -1113,7 +1113,9 @@
   },
   "metadata": {
     "total_custom_attributes": 15,
-    "objects": ["Ticket"],
+    "objects": [
+      "Ticket"
+    ],
     "exported_at": "2026-06-10T08:35:27.758Z"
   }
 }
