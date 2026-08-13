@@ -792,6 +792,14 @@ class App.TicketZoom extends App.Controller
       state = App.TicketState.findByAttribute('id', @ticket.state_id)
       return if state && state.default_create is true
 
+      # and only if the ticket is in a closed/resolved state type
+      # (closed, merged, removed) — the follow-up state should only
+      # be applied when reopening a closed ticket, not on active
+      # tickets that are still being worked on.
+      if state
+        stateType = App.TicketStateType.findNative(state.state_type_id)
+        return if stateType && stateType.name not in ['closed', 'merged', 'removed']
+
     # prevent multiple changes for the default follow-up state
     @isDefaultFollowUpStateSet = true
 
