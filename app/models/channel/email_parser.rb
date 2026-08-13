@@ -232,7 +232,10 @@ returns
         # set ticket to open again or keep create state
         if !mail[:'x-zammad-ticket-followup-state'] && !mail[:'x-zammad-ticket-followup-state_id']
           new_state = Ticket::State.find_by(default_create: true)
-          if ticket.state_id != new_state.id && !mail[:'x-zammad-out-of-office']
+          # Only apply the follow-up state if the ticket is in a
+          # closed/resolved state type (closed, merged, removed).
+          # Active tickets should not have their state changed.
+          if ticket.state_id != new_state.id && !mail[:'x-zammad-out-of-office'] && Ticket::StateType.names_in_category(:resolved).include?(ticket.state.state_type.name)
             ticket.state = Ticket::State.find_by(default_follow_up: true)
             ticket.save!
           end

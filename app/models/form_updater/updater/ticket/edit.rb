@@ -89,6 +89,11 @@ class FormUpdater::Updater::Ticket::Edit < FormUpdater::Updater
     # And only if the ticket is not in the default create state (e.g. "new").
     return if object.state.default_create
 
+    # And only if the ticket is in a closed/resolved state type (closed, merged, removed).
+    # The follow-up state should only be applied when reopening a closed ticket,
+    # not on active tickets that are still being worked on.
+    return if ::Ticket::StateType.names_in_category(:resolved).exclude?(object.state.state_type.name)
+
     set_resultant_field_values
   end
 
