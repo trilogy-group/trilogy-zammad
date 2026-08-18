@@ -31,6 +31,12 @@ const overviewSchema = z.object({
   view: z.record(z.string(), z.any()),
   active: z.boolean(),
   prio: z.number().optional(),
+  // Grouping fields — must be in the schema so the config value (null = no
+  // grouping) is actually sent in the PUT body. Without these, zod strips them
+  // and the live overview's group_by is never overwritten (drift bug: config
+  // said null but live prod had group_by='owner' for months).
+  group_by: z.string().nullable().optional(),
+  group_direction: z.string().nullable().optional(),
 });
 
 const configSchema = z.object({

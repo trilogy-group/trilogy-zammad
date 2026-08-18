@@ -126,7 +126,7 @@
       "next_state_id": null,
       "ignore_escalation": false,
       "default_create": false,
-      "default_follow_up": true,
+      "default_follow_up": false,
       "note": "Legal Intake import: submitted_to_legal",
       "active": true
     },
@@ -156,7 +156,7 @@
       "next_state_id": null,
       "ignore_escalation": false,
       "default_create": false,
-      "default_follow_up": false,
+      "default_follow_up": true,
       "note": "Legal Intake import: under_legal_review",
       "active": true
     },
