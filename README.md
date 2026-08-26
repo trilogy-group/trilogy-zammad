@@ -1,6 +1,6 @@
 # Legal Intake — Zammad (Trilogy fork)
 
-> This is **`trilogy-group/legal-intake-zammad`**, a customized fork of
+> This is **`trilogy-group/trilogy-zammad`**, a customized fork of
 > [`zammad/zammad`](https://github.com/zammad/zammad) that powers the attorney help desk for the
 > **Legal Intake** platform. The upstream Zammad README follows below; **this section is the
 > Trilogy-specific bit you need first.** Deeper agent/contributor detail is in
@@ -51,7 +51,7 @@
 - The EC2 boxes, ECR repo, and SSM parameters are provisioned by the **`legal-intake-iac`** repo
   (AWS CDK) — a separate, manually-deployed repo.
 - `gh` note: this repo has an `upstream` remote, so always pass
-  `--repo trilogy-group/legal-intake-zammad` to `gh` commands (bare `gh` resolves to `zammad/zammad`).
+  `--repo trilogy-group/trilogy-zammad` to `gh` commands (bare `gh` resolves to `zammad/zammad`).
 
 ---
 

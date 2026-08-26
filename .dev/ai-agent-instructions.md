@@ -32,7 +32,7 @@ Trilogy-specific:
   Manual apply still works for one-offs: `pnpm run zammad:<env>:configure-*`. `export-*` dumps.
 - **Gotchas:**
   - `gh` has an `upstream` remote → bare `gh run/api` resolve to `zammad/zammad` and 404. Always pass
-    `--repo trilogy-group/legal-intake-zammad`.
+    `--repo trilogy-group/trilogy-zammad`.
   - Keep repo setting **`delete_branch_on_merge = false`** — when it was `true`, merging a
     `staging`→`main` PR auto-deleted the persistent `staging` branch. Recreate if lost:
     `git branch -f staging origin/main && git push origin staging`.
@@ -48,7 +48,7 @@ This help desk is one of three sibling repos (clone side-by-side under one paren
 | Repo | Role |
 |---|---|
 | **legal-intake** | Next.js intake app (raises tickets here via REST + receives our webhooks). See its `AGENTS.md`. |
-| **legal-intake-zammad** (this) | Customized Zammad help desk — attorney ticketing + contract-review workflow. |
+| **trilogy-zammad** (this) | Customized Zammad help desk — attorney ticketing + contract-review workflow. |
 | **legal-intake-iac** | AWS CDK for THIS repo's EC2 boxes, ECR, SSM params, the version-param bootstrap. See its `AGENTS.md`. |
 
 ### Local development
