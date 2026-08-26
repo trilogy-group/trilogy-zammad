@@ -203,7 +203,6 @@
     "import_otrs_endpoint": "http://otrs_host/otrs",
     "import_otrs_endpoint_key": "**********",
     "import_mode": false,
-    "monitoring_token": "ab5w5zLqqia3uyzA_ADf6Mn1L-FxAZ4Agd8fSJGMJbvltfhkYitJsw",
     "es_pipeline": "zammadfa19b111-eace-4494-af23-c0fa423c03e6",
     "notification_sender": "no-reply@legal-intake.ti.trilogy.com",
     "import_otrs_user": "",
