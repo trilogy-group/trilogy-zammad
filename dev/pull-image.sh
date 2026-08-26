@@ -35,7 +35,7 @@ if [ ! -d "$ZAMMAD_FORK_DIR/.git" ]; then
   die "legal-intake-zammad repo not found at $ZAMMAD_FORK_DIR
 Clone it first:
   cd $(dirname $ZAMMAD_FORK_DIR)
-  git clone https://github.com/trilogy-group/legal-intake-zammad.git"
+  git clone https://github.com/trilogy-group/trilogy-zammad.git"
 fi
 
 echo "Fetching latest commits from legal-intake-zammad..."
@@ -74,7 +74,7 @@ echo ""
 echo "Pulling $FULL_IMAGE ..."
 docker pull "$FULL_IMAGE" \
   || die "Failed to pull image. It may not exist yet in ECR for this SHA.
-Check: https://github.com/trilogy-group/legal-intake-zammad/actions"
+Check: https://github.com/trilogy-group/trilogy-zammad/actions"
 
 echo ""
 echo "Tagging as $LOCAL_TAG..."
