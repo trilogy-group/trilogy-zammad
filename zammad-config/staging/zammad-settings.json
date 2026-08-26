@@ -198,7 +198,6 @@
     "import_otrs_endpoint": "http://otrs_host/otrs",
     "import_otrs_endpoint_key": "**********",
     "notification_sender": "s",
-    "monitoring_token": "ab5w5zLqqia3uyzA_ADf6Mn1L-FxAZ4Agd8fSJGMJbvltfhkYitJsw",
     "es_pipeline": "zammadfa19b111-eace-4494-af23-c0fa423c03e6",
     "send_no_auto_response_reg_exp": ".+",
     "import_otrs_user": "",
