@@ -1,6 +1,32 @@
 {
   "triggers": [
     {
+      "name": "Ticket Shared Access Changed",
+      "condition": {
+        "ticket.action": {
+          "operator": "is",
+          "value": "update"
+        },
+        "ticket.shared_access_user_ids": {
+          "operator": "has changed",
+          "value": [],
+          "value_completion": ""
+        }
+      },
+      "perform": {
+        "notification.webhook": {
+          "webhook_id": "2"
+        }
+      },
+      "disable_notification": true,
+      "localization": "system",
+      "timezone": "system",
+      "note": "Fires the intake webhook when a ticket's customer-to-customer shared access list changes. Ticket::SharedAccess#signal_ticket_change emits a synthetic 'shared_access_user_ids' change on create and destroy, which this 'has changed' condition matches. The intake handler reconciles the full share set into request_shares so shared users can read the request via /api/v1. Webhook ID: 2.",
+      "activator": "action",
+      "execution_condition_mode": "selective",
+      "active": true
+    },
+    {
       "name": "Auto-transition: Awaiting Response → Under Legal Review",
       "condition": {
         "ticket.action": {
