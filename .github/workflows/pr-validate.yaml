@@ -77,3 +77,41 @@ jobs:
           done < <(find zammad-config -name '*.json' -print0)
           if [ "$fail" -ne 0 ]; then exit 1; fi
           echo "All zammad-config JSON files are valid."
+      # Zammad rejects an over-long trigger/job note with HTTP 422 at APPLY time,
+      # i.e. mid-deploy, after earlier config has already been written. Parseable
+      # JSON says nothing about Zammad's own field limits, so check the one that
+      # has actually bitten us here instead of discovering it on staging.
+      - name: Validate Zammad field limits
+        run: |
+          set -euo pipefail
+          node -e '
+            const fs = require("fs");
+            const path = require("path");
+            const MAX_NOTE = 250; // Zammad: "Note is too long (maximum is 250 characters)"
+            let fail = 0;
+
+            const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
+              const p = path.join(dir, e.name);
+              return e.isDirectory() ? walk(p) : p.endsWith(".json") ? [p] : [];
+            });
+
+            for (const file of walk("zammad-config")) {
+              const parsed = JSON.parse(fs.readFileSync(file, "utf8"));
+              // Config files are { "<collection>": [ {...}, ... ] }; scan every
+              // array of objects so this covers triggers, jobs, schedulers, etc.
+              for (const items of Object.values(parsed)) {
+                if (!Array.isArray(items)) continue;
+                for (const item of items) {
+                  if (!item || typeof item !== "object") continue;
+                  const note = item.note;
+                  if (typeof note === "string" && note.length > MAX_NOTE) {
+                    console.log(`::error file=${file}::"${item.name}" note is ${note.length} chars (max ${MAX_NOTE}); Zammad will reject this with HTTP 422 during deploy`);
+                    fail = 1;
+                  }
+                }
+              }
+            }
+
+            if (fail) process.exit(1);
+            console.log(`All zammad-config notes are within ${MAX_NOTE} characters.`);
+          '
