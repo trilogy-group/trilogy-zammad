@@ -54,7 +54,7 @@ This help desk is one of three sibling repos (clone side-by-side under one paren
 ### Local development
 Full setup — running Zammad natively wired to a local legal-intake — is in **`dev/README.md`**
 (don't duplicate it). Essentials:
-- Clone `legal-intake` + `legal-intake-zammad` as **siblings**; `dev/setup.sh` finds the app at
+- Clone `legal-intake` + `trilogy-zammad` as **siblings**; `dev/setup.sh` finds the app at
   `../../legal-intake` (or set `LEGAL_INTAKE_DIR`).
 - Deps: Docker, rbenv + Ruby 3.4.9, forego, Node 22+, pnpm 10+, libpq.
 - `pnpm run zammad:local:up` (Postgres/ES/Redis/Memcached in Docker) → `pnpm run zammad:local:setup`
@@ -71,7 +71,7 @@ Full setup — running Zammad natively wired to a local legal-intake — is in *
   **background-job/worker code (triggers, notifications, schedulers, `app/jobs`) + `config/*` +
   Gemfile do NOT hot-reload → restart `bin/dev`.**
 - **Running from a git worktree:** works (`bin/dev` runs that worktree's branch code) — but a fresh
-  worktree lacks the gitignored deps/env, so first `cp ../../legal-intake-zammad/.env .`, then
+  worktree lacks the gitignored deps/env, so first `cp ../../trilogy-zammad/.env .`, then
   `pnpm install` + `bundle install`. Infra containers + the local DB are **shared** (run
   `zammad:local:up` once; don't double-start), and only **one `bin/dev` at a time** (ports collide).
   Full detail in `dev/README.md` → "Running from a git worktree".
