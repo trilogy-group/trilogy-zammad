@@ -1,7 +1,7 @@
 # Local Development Setup
 
 This document covers everything needed to run the full Legal Intake + Zammad stack locally — it gets
-**legal-intake-zammad** running and wired to the **legal-intake** app.
+**trilogy-zammad** running and wired to the **legal-intake** app.
 
 > **Assumed layout:** this guide assumes the two repos are cloned as **siblings** under the same parent
 > directory:
@@ -9,8 +9,10 @@ This document covers everything needed to run the full Legal Intake + Zammad sta
 > ```
 > <parent>/
 > ├── legal-intake/
-> └── legal-intake-zammad/
+> └── trilogy-zammad/
 > ```
+>
+> (Older checkouts used the folder name `legal-intake-zammad`. The Docker Compose project name is pinned to `legal-intake-zammad` in `dev/docker-compose.yml` regardless of the folder name, so containers stay `legal-intake-zammad-zammad-*` and the local DB volumes survive a folder rename.)
 >
 > `dev/setup.sh` locates legal-intake at `../../legal-intake` relative to itself. If your layout
 > differs, set `LEGAL_INTAKE_DIR` when running setup:
@@ -61,7 +63,7 @@ ruby -v   # => ruby 3.4.9
 > compilation and Rails will abort. `.env.example` sets `EXECJS_RUNTIME=Node` to prevent this —
 > keep it.
 
-**One-time Ruby + Node install** (inside `legal-intake-zammad/`):
+**One-time Ruby + Node install** (inside `trilogy-zammad/`):
 
 ```bash
 # If the pg gem can't find libpq, point bundler at it once:
@@ -92,7 +94,7 @@ ZAMMAD_WEBHOOK_SECRET="$(openssl rand -hex 32)"
 ### 2. Create the Zammad env files
 
 ```bash
-cd legal-intake-zammad
+cd trilogy-zammad
 
 # Native Rails env (DB/Redis/ES/Memcached + EXECJS_RUNTIME + pool tuning).
 # Defaults are correct — no edits needed.
@@ -197,10 +199,10 @@ Make sure **Docker Desktop is running** first. Then:
 cd legal-intake && supabase start
 
 # Terminal 1 — Zammad infra: Postgres, Elasticsearch, Redis, Memcached (Docker)
-cd legal-intake-zammad && pnpm run zammad:local:up
+cd trilogy-zammad && pnpm run zammad:local:up
 
 # Terminal 2 — Zammad app: native Rails web + background worker + websocket + Vite (keep running)
-cd legal-intake-zammad && pnpm run zammad:local:dev
+cd trilogy-zammad && pnpm run zammad:local:dev
 
 # Terminal 3 — legal-intake on 3000 (keep running)
 cd legal-intake && npm run dev
@@ -215,7 +217,7 @@ Re-run `pnpm run zammad:local:setup` any time you want to re-apply config (it's 
 
 ```bash
 # Stop the foreground apps: Ctrl-C in the Terminal 2 (Zammad) and Terminal 3 (legal-intake) windows
-pnpm run zammad:local:down          # stop Zammad infra containers   (from legal-intake-zammad)
+pnpm run zammad:local:down          # stop Zammad infra containers   (from trilogy-zammad)
 cd legal-intake && supabase stop    # stop legal-intake's Supabase containers
 ```
 
@@ -255,12 +257,12 @@ No restart needed — applied via API instantly. (Requires `zammad-config/local/
 
 ### Running from a git worktree (feature-branch dev)
 You can develop a branch in a sibling worktree
-(`../legal-intake-zammad_WORKTREES/legal-intake-zammad-<task>/`) and run it locally — `bin/dev` runs
+(`../trilogy-zammad_WORKTREES/trilogy-zammad-<task>/`) and run it locally — `bin/dev` runs
 natively from whatever directory you invoke it in, so it runs **that worktree's branch code**, and the
 same hot-reload rules above apply. Four things to get right first, because a fresh worktree only has
 the source (deps + env are gitignored, so they're NOT carried over):
 
-1. **Copy the env file:** `cp ../../legal-intake-zammad/.env .` (plus `dev/.env` and
+1. **Copy the env file:** `cp ../../trilogy-zammad/.env .` (plus `dev/.env` and
    `zammad-config/local/.env` if you need setup/config commands in the worktree).
 2. **Install deps in the worktree:** `pnpm install` and `bundle install` (gems + `node_modules` are
    per-tree, not shared). Symlinking `node_modules` from the main checkout is a fast alternative;
@@ -339,11 +341,11 @@ it reaches legal-intake directly via localhost. The payload is signed with HMAC-
 
 | File | Purpose |
 |---|---|
-| `legal-intake-zammad/.env` | Native Rails env — DB URL, Redis, ES, Memcached, `EXECJS_RUNTIME`, pool (gitignored; copy from `.env.example`) |
-| `legal-intake-zammad/dev/.env` | Local Zammad admin + bot credentials + the API token setup.sh writes (gitignored) |
-| `legal-intake-zammad/zammad-config/local/.env` | API token for the standalone `configure-*` scripts (gitignored) |
-| `legal-intake-zammad/zammad-config/staging/.env` | Staging API token (gitignored) |
-| `legal-intake-zammad/zammad-config/prod/.env` | Production API token (gitignored) |
+| `trilogy-zammad/.env` | Native Rails env — DB URL, Redis, ES, Memcached, `EXECJS_RUNTIME`, pool (gitignored; copy from `.env.example`) |
+| `trilogy-zammad/dev/.env` | Local Zammad admin + bot credentials + the API token setup.sh writes (gitignored) |
+| `trilogy-zammad/zammad-config/local/.env` | API token for the standalone `configure-*` scripts (gitignored) |
+| `trilogy-zammad/zammad-config/staging/.env` | Staging API token (gitignored) |
+| `trilogy-zammad/zammad-config/prod/.env` | Production API token (gitignored) |
 | `legal-intake/.env` | Next.js env — `ZAMMAD_*` keys auto-written by setup.sh; you add `ZAMMAD_WEBHOOK_SECRET` |
 
 All gitignored files have a `.env.example` to copy from.
