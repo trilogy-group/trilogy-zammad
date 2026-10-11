@@ -1,6 +1,6 @@
 # Zammad Configuration
 
-JSON configuration files for all environments. Applied via TypeScript scripts in `legal-intake-zammad/scripts/`, invoked through `pnpm` scripts defined in `legal-intake-zammad/package.json`.
+JSON configuration files for all environments. Applied via TypeScript scripts in `trilogy-zammad/scripts/`, invoked through `pnpm` scripts defined in `trilogy-zammad/package.json`.
 
 ## Structure
 
@@ -16,7 +16,7 @@ Each environment directory also contains a gitignored `.env` with API credential
 ## Applying config
 
 ```bash
-# From legal-intake-zammad/
+# From trilogy-zammad/
 
 # Apply a single config type to local
 pnpm run zammad:local:configure-settings
