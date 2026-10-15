@@ -21,7 +21,7 @@
     </ul>
   </div>
   <% else: %>
-  <a class="menu-item js-<%- item.class %>MenuItem <% if @activeTab[item.target]: %>is-active<% end %> <% if item.onclick: %>js-onclick<% end %>" href="<%= item.target %>" data-key="<%- item.key %>">
+  <a class="menu-item js-<%- item.class %>MenuItem <% if @activeTab[item.target]: %>is-active<% end %> <% if item.onclick: %>js-onclick<% end %>" href="<%= item.target %>" data-key="<%- item.key %>" <% if item.external: %>target="_blank" rel="noopener noreferrer"<% end %>>
     <%- @Icon(item.class, 'menu-item-icon') %>
     <span class="menu-item-name">
       <%- @T(item.name) %>

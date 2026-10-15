@@ -317,9 +317,60 @@
       "user_ids": []
     },
     {
-      "name": "My Assigned Tickets",
+      "name": "My Escalated Tickets",
       "link": "",
       "prio": 8,
+      "condition": {
+        "ticket.owner_id": {
+          "operator": "is",
+          "pre_condition": "current_user.id",
+          "value": [],
+          "value_completion": ""
+        },
+        "ticket.tags": {
+          "operator": "contains one",
+          "value": "escalated"
+        },
+        "ticket.state_id": {
+          "operator": "is not",
+          "value": [
+            "4",
+            "14",
+            "22"
+          ]
+        }
+      },
+      "order": {
+        "by": "updated_at",
+        "direction": "ASC"
+      },
+      "group_by": null,
+      "group_direction": null,
+      "organization_shared": false,
+      "out_of_office": false,
+      "view": {
+        "s": [
+          "number",
+          "title",
+          "customer",
+          "group",
+          "owner",
+          "state",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "active": true,
+      "role_ids": [
+        2,
+        4
+      ],
+      "user_ids": []
+    },
+    {
+      "name": "My Assigned Tickets",
+      "link": "",
+      "prio": 9,
       "condition": {
         "ticket.owner_id": {
           "operator": "is",
@@ -365,7 +416,7 @@
     {
       "name": "My Subscribed Tickets",
       "link": "",
-      "prio": 9,
+      "prio": 10,
       "condition": {
         "ticket.mention_user_ids": {
           "operator": "is",
@@ -411,7 +462,7 @@
     {
       "name": "My Tickets Waiting on Me",
       "link": "",
-      "prio": 10,
+      "prio": 11,
       "condition": {
         "ticket.state_id": {
           "operator": "is",
@@ -456,7 +507,7 @@
     {
       "name": "My Tickets Waiting on Customer",
       "link": "",
-      "prio": 11,
+      "prio": 12,
       "condition": {
         "ticket.state_id": {
           "operator": "is",
@@ -501,7 +552,7 @@
     {
       "name": "My Attorney Reply Overdue (3+ days)",
       "link": "",
-      "prio": 12,
+      "prio": 13,
       "condition": {
         "ticket.state_id": {
           "operator": "is",
@@ -551,7 +602,7 @@
     {
       "name": "My Customer Reply Overdue (3+ days)",
       "link": "",
-      "prio": 13,
+      "prio": 14,
       "condition": {
         "ticket.state_id": {
           "operator": "is",
@@ -601,7 +652,7 @@
     {
       "name": "My Tickets Ready for Signature",
       "link": "",
-      "prio": 14,
+      "prio": 15,
       "condition": {
         "ticket.state_id": {
           "operator": "is",
@@ -646,7 +697,7 @@
     {
       "name": "My Tickets Sent for Signature",
       "link": "",
-      "prio": 15,
+      "prio": 16,
       "condition": {
         "ticket.state_id": {
           "operator": "is",
@@ -691,7 +742,7 @@
     {
       "name": "My Resolved Tickets",
       "link": "",
-      "prio": 16,
+      "prio": 17,
       "condition": {
         "ticket.state_id": {
           "operator": "is",
@@ -736,7 +787,7 @@
     {
       "name": "My Closed Tickets",
       "link": "",
-      "prio": 17,
+      "prio": 18,
       "condition": {
         "ticket.state_id": {
           "operator": "is",
@@ -779,9 +830,53 @@
       "user_ids": []
     },
     {
+      "name": "All Escalated Tickets",
+      "link": "",
+      "prio": 19,
+      "condition": {
+        "ticket.tags": {
+          "operator": "contains one",
+          "value": "escalated"
+        },
+        "ticket.state_id": {
+          "operator": "is not",
+          "value": [
+            "4",
+            "14",
+            "22"
+          ]
+        }
+      },
+      "order": {
+        "by": "updated_at",
+        "direction": "ASC"
+      },
+      "group_by": null,
+      "group_direction": null,
+      "organization_shared": false,
+      "out_of_office": false,
+      "view": {
+        "s": [
+          "number",
+          "title",
+          "customer",
+          "group",
+          "owner",
+          "state",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "active": true,
+      "role_ids": [
+        4
+      ],
+      "user_ids": []
+    },
+    {
       "name": "Open Tickets with Admin",
       "link": "",
-      "prio": 18,
+      "prio": 20,
       "condition": {
         "ticket.owner_id": {
           "operator": "is",
@@ -828,7 +923,7 @@
     {
       "name": "Unassigned Tickets",
       "link": "",
-      "prio": 19,
+      "prio": 21,
       "condition": {
         "ticket.owner_id": {
           "operator": "is",
@@ -874,7 +969,7 @@
     {
       "name": "All Tickets Waiting on Legal Team",
       "link": "",
-      "prio": 20,
+      "prio": 22,
       "condition": {
         "ticket.state_id": {
           "operator": "is not",
@@ -921,7 +1016,7 @@
     {
       "name": "All Tickets Waiting on Customer",
       "link": "",
-      "prio": 21,
+      "prio": 23,
       "condition": {
         "ticket.state_id": {
           "operator": "is",
@@ -965,7 +1060,7 @@
     {
       "name": "All Attorney Reply Overdue (3+ days)",
       "link": "",
-      "prio": 22,
+      "prio": 24,
       "condition": {
         "ticket.state_id": {
           "operator": "is",
@@ -1008,7 +1103,7 @@
     {
       "name": "All Customer Reply Overdue (3+ days)",
       "link": "",
-      "prio": 23,
+      "prio": 25,
       "condition": {
         "ticket.state_id": {
           "operator": "is",
@@ -1051,7 +1146,7 @@
     {
       "name": "All Tickets Ready for Signature",
       "link": "",
-      "prio": 24,
+      "prio": 26,
       "condition": {
         "ticket.state_id": {
           "operator": "is",
@@ -1089,7 +1184,7 @@
     {
       "name": "All Tickets Sent for Signature",
       "link": "",
-      "prio": 25,
+      "prio": 27,
       "condition": {
         "ticket.state_id": {
           "operator": "is",
@@ -1127,7 +1222,7 @@
     {
       "name": "All Open Tickets",
       "link": "",
-      "prio": 26,
+      "prio": 28,
       "condition": {
         "ticket.state_id": {
           "operator": "is not",
@@ -1167,7 +1262,7 @@
     {
       "name": "All Resolved Tickets",
       "link": "",
-      "prio": 27,
+      "prio": 29,
       "condition": {
         "ticket.state_id": {
           "operator": "is",
@@ -1205,7 +1300,7 @@
     {
       "name": "All Closed Tickets",
       "link": "",
-      "prio": 28,
+      "prio": 30,
       "condition": {
         "ticket.state_id": {
           "operator": "is",
@@ -1243,7 +1338,7 @@
     {
       "name": "All Tickets",
       "link": "",
-      "prio": 29,
+      "prio": 31,
       "condition": {
         "ticket.state_id": {
           "operator": "is",
