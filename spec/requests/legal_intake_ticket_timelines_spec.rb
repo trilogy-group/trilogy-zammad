@@ -153,6 +153,15 @@ RSpec.describe 'Legal Intake ticket timelines', :aggregate_failures, type: :requ
       expect(timelines([created.id]).first['legal_admin_assigner_id']).to eq(coordinator.id)
     end
 
+    it 'does not credit a Legal Admin who created the ticket unassigned' do
+      created = create(:ticket, group: group, customer: customer, created_by: coordinator)
+      as_user(attorney) { created.update!(owner: attorney) }
+      authenticated_as(attorney)
+      t = timelines([created.id]).first
+      expect(t['assigned_by_id']).to eq(attorney.id)
+      expect(t['legal_admin_assigner_id']).to be_nil
+    end
+
     it 'gives customers no staff emails and no coordinator' do
       authenticated_as(customer)
       t = timelines([ticket.id]).first

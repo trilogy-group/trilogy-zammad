@@ -191,7 +191,7 @@ class Service::Ticket::LegalIntakeTimelines < Service::Base
   # Who assigned the CURRENT owner: the latest owner change to them; plus the
   # latest change on the ticket made by a Legal Admin (the coordinator who
   # routed it), walking back past attorney hand-offs.
-  def assignment(ticket, events) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+  def assignment(ticket, events) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
     owner_events = events.select { |e| e.kind == :owner }
     return {} if ticket.owner_id.nil? || ticket.owner_id == SYSTEM_USER_ID
 
@@ -199,9 +199,13 @@ class Service::Ticket::LegalIntakeTimelines < Service::Base
     by_admin = owner_events.reverse.find { |e| e.id_to.present? && e.id_to != SYSTEM_USER_ID && legal_admin?(e.by) }
     # Created with an owner: history records the creation, not an owner
     # change, so the creator assigned it.
+    # The creator assigned an owner only if the ticket was BORN with one: no
+    # owner change at all, or the first change moves away from a real owner.
+    first = owner_events.first
+    born_owned = first.nil? || (first.id_from.present? && first.id_from != SYSTEM_USER_ID)
     creator = ticket.created_by_id
-    creator_admin = legal_admin?(creator) ? creator : nil
-    return { at: ticket.created_at, by: creator, legal_admin_by: creator_admin } if to_owner.nil? && owner_events.none?
+    creator_admin = born_owned && legal_admin?(creator) ? creator : nil
+    return { at: ticket.created_at, by: creator, legal_admin_by: creator_admin } if to_owner.nil? && first.nil?
 
     # A Legal Admin who created the ticket with an owner routed it, even if
     # attorneys have handed it on since.
