@@ -393,6 +393,39 @@
       "activator": "action",
       "execution_condition_mode": "selective",
       "active": true
+    },
+    {
+      "name": "Escalation cleared on resolve or close",
+      "condition": {
+        "ticket.action": {
+          "operator": "is",
+          "value": "update"
+        },
+        "ticket.state_id": {
+          "operator": "is",
+          "value": [
+            "4",
+            "14"
+          ]
+        },
+        "ticket.tags": {
+          "operator": "contains one",
+          "value": "escalated"
+        }
+      },
+      "perform": {
+        "ticket.tags": {
+          "operator": "remove",
+          "value": "escalated"
+        }
+      },
+      "disable_notification": true,
+      "localization": "system",
+      "timezone": "system",
+      "note": "Attention dashboard (D6): an escalation stays until the legal side clears it (removes the escalated tag, or Clear escalation on the Legal Intake dashboard). Resolving or closing the ticket clears it too.",
+      "activator": "action",
+      "execution_condition_mode": "selective",
+      "active": true
     }
   ]
 }

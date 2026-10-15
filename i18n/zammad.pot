@@ -2951,7 +2951,7 @@ msgstr ""
 #: app/frontend/apps/desktop/pages/ticket/components/TicketSidebar/TicketSidebarCustomer/TicketSidebarCustomerContent.vue:70
 #: app/frontend/apps/desktop/pages/ticket/components/TicketSidebar/TicketSidebarInformation/TicketSidebarInformationContent.vue:82
 #: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketAction/TicketActionChangeCustomerDialog.vue:65
-#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:147
+#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:148
 msgid "Change customer"
 msgstr ""
 
@@ -3604,7 +3604,7 @@ msgstr ""
 msgid "Confirm dialog"
 msgstr ""
 
-#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:125
+#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:126
 msgid "Confirm merge"
 msgstr ""
 
@@ -4546,7 +4546,7 @@ msgstr ""
 msgid "Decrement seconds value"
 msgstr ""
 
-#: app/assets/javascripts/app/controllers/article_view/item.coffee:299
+#: app/assets/javascripts/app/controllers/article_view/item.coffee:298
 msgid "Decryption failed!"
 msgstr ""
 
@@ -4555,7 +4555,7 @@ msgstr ""
 msgid "Decryption failed! %s"
 msgstr ""
 
-#: app/assets/javascripts/app/controllers/article_view/item.coffee:297
+#: app/assets/javascripts/app/controllers/article_view/item.coffee:296
 #: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/ArticleSecurityBadge.vue:102
 #: app/frontend/shared/composables/useArticleSecurity.ts:110
 msgid "Decryption was successful."
@@ -5914,12 +5914,9 @@ msgstr ""
 
 #: app/assets/javascripts/app/controllers/ticket_zoom/article_attachment_preview.coffee:12
 #: app/assets/javascripts/app/controllers/ticket_zoom/article_image_view.coffee:4
-#: app/assets/javascripts/app/views/generic/attachments.jst.eco:6
 #: app/assets/javascripts/app/views/system_report.jst.eco:20
-#: app/assets/javascripts/app/views/ticket_zoom/sidebar_article_attachment.jst.eco:4
-#: app/frontend/apps/desktop/components/CommonAttachmentPreviewFlyout/CommonAttachmentPreviewFlyout.vue:82
+#: app/frontend/apps/desktop/components/CommonAttachmentPreviewFlyout/CommonAttachmentPreviewFlyout.vue:115
 #: app/frontend/apps/desktop/components/CommonCalendarPreviewFlyout/CommonCalendarPreviewFlyout.vue:87
-#: app/frontend/shared/components/CommonFilePreview/CommonFilePreview.vue:83
 msgid "Download"
 msgstr ""
 
@@ -5982,7 +5979,7 @@ msgstr ""
 msgid "Download raw email"
 msgstr ""
 
-#: app/assets/javascripts/app/controllers/article_view/item.coffee:325
+#: app/assets/javascripts/app/controllers/article_view/item.coffee:324
 msgid "Downloading attachments…"
 msgstr ""
 
@@ -6982,7 +6979,7 @@ msgstr ""
 msgid "Execute changes on objects"
 msgstr ""
 
-#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:133
+#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:134
 msgid "Execute configured macros"
 msgstr ""
 
@@ -7285,7 +7282,7 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:123
+#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:124
 msgid "Find a ticket"
 msgstr ""
 
@@ -8255,7 +8252,7 @@ msgstr ""
 #: app/frontend/apps/desktop/pages/organization/components/OrganizationDetailTopBar/actions/history.ts:13
 #: app/frontend/apps/desktop/pages/ticket/components/TicketSidebar/TicketSidebarInformation/TicketSidebarInformationContent.vue:64
 #: app/frontend/apps/desktop/pages/user/components/UserDetailTopBar/actions/history.ts:13
-#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:141
+#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:142
 msgid "History"
 msgstr ""
 
@@ -8623,7 +8620,7 @@ msgid "Inactive"
 msgstr ""
 
 #: app/controllers/ticket_shared_accesses_controller.rb:21
-#: app/graphql/gql/mutations/ticket/shared_access/share.rb:45
+#: app/graphql/gql/mutations/ticket/shared_access/share.rb:48
 msgid "Inactive users cannot be shared on tickets."
 msgstr ""
 
@@ -9712,7 +9709,7 @@ msgstr ""
 msgid "Loading shared users"
 msgstr ""
 
-#: app/assets/javascripts/app/controllers/ticket_zoom/article_attachment_preview.coffee:28
+#: app/assets/javascripts/app/controllers/ticket_zoom/article_attachment_preview.coffee:34
 msgid "Loading …"
 msgstr ""
 
@@ -10364,7 +10361,7 @@ msgid "Merge cells"
 msgstr ""
 
 #: app/frontend/apps/desktop/pages/ticket/components/TicketDetailView/actions/TicketMerge/TicketMergeFlyout.vue:95
-#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:75
+#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:76
 msgid "Merge tickets"
 msgstr ""
 
@@ -12184,7 +12181,7 @@ msgstr ""
 msgid "Origin By"
 msgstr ""
 
-#: app/assets/javascripts/app/controllers/article_view/item.coffee:94
+#: app/assets/javascripts/app/controllers/article_view/item.coffee:93
 msgid "Original Formatting"
 msgstr ""
 
@@ -12937,7 +12934,7 @@ msgstr ""
 #: app/assets/javascripts/app/views/profile/imageCropper.jst.eco:5
 #: app/assets/javascripts/app/views/settings/ticket_number.jst.eco:13
 #: app/assets/javascripts/app/views/system_report.jst.eco:20
-#: app/assets/javascripts/app/views/ticket_zoom/sidebar_article_attachment.jst.eco:31
+#: app/assets/javascripts/app/views/ticket_zoom/sidebar_article_attachment.jst.eco:30
 #: app/assets/javascripts/app/views/widget/text_module.jst.eco:16
 #: app/frontend/shared/components/CommonFilePreview/CommonFilePreview.vue:114
 msgid "Preview"
@@ -12955,8 +12952,8 @@ msgstr ""
 msgid "Preview calendar"
 msgstr ""
 
-#: app/assets/javascripts/app/controllers/ticket_zoom/article_attachment_preview.coffee:70
-#: app/frontend/apps/desktop/components/CommonAttachmentPreviewFlyout/CommonAttachmentPreviewFlyout.vue:92
+#: app/assets/javascripts/app/controllers/ticket_zoom/article_attachment_preview.coffee:108
+#: app/frontend/apps/desktop/components/CommonAttachmentPreviewFlyout/CommonAttachmentPreviewFlyout.vue:125
 msgid "Preview could not be generated."
 msgstr ""
 
@@ -12973,8 +12970,8 @@ msgstr ""
 msgid "Preview shared draft"
 msgstr ""
 
-#: app/assets/javascripts/app/controllers/ticket_zoom/article_attachment_preview.coffee:22
-#: app/frontend/apps/desktop/components/CommonAttachmentPreviewFlyout/CommonAttachmentPreviewFlyout.vue:80
+#: app/assets/javascripts/app/controllers/ticket_zoom/article_attachment_preview.coffee:26
+#: app/frontend/apps/desktop/components/CommonAttachmentPreviewFlyout/CommonAttachmentPreviewFlyout.vue:113
 msgid "Preview – %s"
 msgstr ""
 
@@ -13115,6 +13112,10 @@ msgstr ""
 msgid "Provide an assessment of the customer sentiment based on the conversation."
 msgstr ""
 
+#: app/controllers/legal_intake_ticket_timelines_controller.rb:31
+msgid "Provide ids as a comma-separated list of ticket ids."
+msgstr ""
+
 #: app/controllers/knowledge_base/categories_controller.rb:23
 #: lib/knowledge_base/menu_item_update_action.rb:92
 msgid "Provide position of all items in scope"
@@ -13218,7 +13219,7 @@ msgstr ""
 msgid "Rating can only be set once"
 msgstr ""
 
-#: app/assets/javascripts/app/controllers/article_view/item.coffee:73
+#: app/assets/javascripts/app/controllers/article_view/item.coffee:72
 #: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/ArticleMetadataDialog.vue:43
 msgid "Raw"
 msgstr ""
@@ -13491,7 +13492,7 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: app/frontend/shared/components/CommonFilePreview/CommonFilePreview.vue:206
+#: app/frontend/shared/components/CommonFilePreview/CommonFilePreview.vue:191
 msgid "Remove %s"
 msgstr ""
 
@@ -14177,7 +14178,7 @@ msgstr ""
 #: app/assets/javascripts/app/controllers/_integration/github.coffee:63
 #: app/assets/javascripts/app/controllers/_integration/gitlab.coffee:80
 #: app/assets/javascripts/app/controllers/_integration/idoit.coffee:93
-#: app/assets/javascripts/app/controllers/ticket_zoom.coffee:1209
+#: app/assets/javascripts/app/controllers/ticket_zoom.coffee:1217
 msgid "Saving failed."
 msgstr ""
 
@@ -14558,7 +14559,7 @@ msgid "See HTTPLog for details."
 msgstr ""
 
 #: app/assets/javascripts/app/controllers/_ui_element/ticket_duplicate_detection.coffee:71
-#: app/assets/javascripts/app/controllers/article_view/item.coffee:453
+#: app/assets/javascripts/app/controllers/article_view/item.coffee:452
 #: app/assets/javascripts/app/controllers/data_privacy.coffee:111
 #: app/frontend/apps/desktop/pages/ticket/components/TicketDetailView/ArticleBubble/ArticleBubbleBody.vue:132
 #: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/ArticleBubble.vue:268
@@ -14566,7 +14567,7 @@ msgid "See less"
 msgstr ""
 
 #: app/assets/javascripts/app/controllers/_ui_element/ticket_duplicate_detection.coffee:68
-#: app/assets/javascripts/app/controllers/article_view/item.coffee:449
+#: app/assets/javascripts/app/controllers/article_view/item.coffee:448
 #: app/assets/javascripts/app/controllers/data_privacy.coffee:108
 #: app/assets/javascripts/app/views/data_privacy/tasks.jst.eco:41
 #: app/assets/javascripts/app/views/generic/ticket_duplicate_detection/warning.jst.eco:21
@@ -15027,7 +15028,7 @@ msgid "Setup finished"
 msgstr ""
 
 #: app/assets/javascripts/app/controllers/ticket_shared_access.coffee:4
-#: app/assets/javascripts/app/controllers/ticket_zoom/sidebar_ticket.coffee:132
+#: app/assets/javascripts/app/controllers/ticket_zoom/sidebar_ticket.coffee:133
 #: app/frontend/apps/desktop/pages/ticket/components/TicketDetailView/actions/TicketShare/TicketShareFlyout.vue:198
 #: app/frontend/apps/desktop/pages/ticket/components/TicketSidebar/TicketSidebarInformation/TicketSidebarInformationContent.vue:92
 #: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketShareDialog.vue:203
@@ -15046,7 +15047,7 @@ msgstr ""
 msgid "Share this ticket with another customer so they can read and comment on it."
 msgstr ""
 
-#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:90
+#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:91
 msgid "Share ticket"
 msgstr ""
 
@@ -15076,7 +15077,7 @@ msgstr ""
 msgid "Shared Mailbox"
 msgstr ""
 
-#: app/controllers/ticket_shared_accesses_controller.rb:53
+#: app/controllers/ticket_shared_accesses_controller.rb:45
 #: app/frontend/shared/entities/ticket-shared-access/composables/useTicketSharedAccess.ts:174
 #: app/graphql/gql/mutations/ticket/shared_access/unshare.rb:23
 msgid "Shared access not found."
@@ -15354,7 +15355,7 @@ msgstr ""
 msgid "Signature"
 msgstr ""
 
-#: app/assets/javascripts/app/controllers/article_view/item.coffee:288
+#: app/assets/javascripts/app/controllers/article_view/item.coffee:287
 msgid "Signature verification failed!"
 msgstr ""
 
@@ -15608,7 +15609,7 @@ msgstr ""
 msgid "Start typing e.g. the name of a ticket, an organization or a user."
 msgstr ""
 
-#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:127
+#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:128
 msgid "Start typing to find the ticket to merge into."
 msgstr ""
 
@@ -15851,7 +15852,7 @@ msgstr ""
 #: app/assets/javascripts/app/controllers/_ui_element/object_perform_action.coffee:157
 #: app/assets/javascripts/app/controllers/_ui_element/object_selector.coffee:206
 #: app/assets/javascripts/app/views/widget/mention.jst.eco:4
-#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:81
+#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:82
 msgid "Subscribe"
 msgstr ""
 
@@ -17174,7 +17175,7 @@ msgstr ""
 msgid "The retried attachment download failed."
 msgstr ""
 
-#: app/assets/javascripts/app/controllers/article_view/item.coffee:308
+#: app/assets/javascripts/app/controllers/article_view/item.coffee:307
 #: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/ArticleSecurityBadge.vue:62
 #: app/frontend/shared/composables/useArticleSecurity.ts:75
 msgid "The retried security process failed!"
@@ -17239,7 +17240,7 @@ msgstr ""
 msgid "The signature part of this PGP email is missing or has a wrong content type according to RFC 3156."
 msgstr ""
 
-#: app/assets/javascripts/app/controllers/article_view/item.coffee:286
+#: app/assets/javascripts/app/controllers/article_view/item.coffee:285
 #: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/ArticleSecurityBadge.vue:85
 #: app/frontend/shared/composables/useArticleSecurity.ts:94
 msgid "The signature was successfully verified."
@@ -18089,6 +18090,10 @@ msgstr ""
 msgid "Ticket Customer"
 msgstr ""
 
+#: app/assets/javascripts/app/controllers/legal_intake_dashboard_link.coffee:18
+msgid "Ticket Dashboard"
+msgstr ""
+
 #: db/seeds/permissions.rb:227
 msgid "Ticket Duplicate Detection"
 msgstr ""
@@ -18224,7 +18229,7 @@ msgstr ""
 msgid "Ticket Trigger Loop Protection Articles per Ticket"
 msgstr ""
 
-#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:116
+#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:117
 msgid "Ticket actions"
 msgstr ""
 
@@ -18241,7 +18246,7 @@ msgid "Ticket assigned: #{ticket.title}\n\nHello #{recipient.firstname},\n\nThe 
 msgstr ""
 
 #: app/controllers/ticket_shared_accesses_controller.rb:20
-#: app/graphql/gql/mutations/ticket/shared_access/share.rb:44
+#: app/graphql/gql/mutations/ticket/shared_access/share.rb:47
 msgid "Ticket can only be shared with customer users."
 msgstr ""
 
@@ -18269,6 +18274,10 @@ msgstr ""
 msgid "Ticket customer updated successfully."
 msgstr ""
 
+#: app/frontend/apps/desktop/components/layout/LayoutSidebar/LeftSidebar/AvatarMenu/plugins/legal-intake-dashboard.ts:17
+msgid "Ticket dashboard"
+msgstr ""
+
 #: app/assets/javascripts/app/controllers/_profile/notification.coffee:71
 #: app/assets/javascripts/app/controllers/_ui_element/notification_matrix.coffee:13
 #: app/frontend/apps/desktop/components/Form/fields/FieldNotifications/FieldNotificationsInput.vue:89
@@ -18291,7 +18300,11 @@ msgstr ""
 msgid "Ticket has been created successfully."
 msgstr ""
 
-#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:96
+#: app/controllers/legal_intake_ticket_timelines_controller.rb:36
+msgid "Ticket ids must be integers."
+msgstr ""
+
+#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:97
 msgid "Ticket info"
 msgstr ""
 
@@ -18304,7 +18317,7 @@ msgstr ""
 msgid "Ticket merged successfully"
 msgstr ""
 
-#: app/controllers/ticket_shared_accesses_controller.rb:146
+#: app/controllers/ticket_shared_accesses_controller.rb:130
 msgid "Ticket not found."
 msgstr ""
 
@@ -19286,7 +19299,7 @@ msgstr ""
 #: app/assets/javascripts/app/controllers/_ui_element/_application_action.coffee:157
 #: app/assets/javascripts/app/controllers/_ui_element/object_perform_action.coffee:167
 #: app/assets/javascripts/app/views/widget/mention.jst.eco:7
-#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:81
+#: app/frontend/apps/mobile/pages/ticket/components/TicketDetailView/TicketActionsDialog.vue:82
 msgid "Unsubscribe"
 msgstr ""
 
@@ -19771,7 +19784,7 @@ msgstr ""
 msgid "User menu"
 msgstr ""
 
-#: app/controllers/ticket_shared_accesses_controller.rb:157
+#: app/controllers/ticket_shared_accesses_controller.rb:141
 #: app/graphql/gql/mutations/ticket/shared_access/share.rb:28
 #: app/graphql/gql/mutations/ticket/shared_access/unshare.rb:30
 msgid "User not found."
@@ -20388,7 +20401,7 @@ msgstr ""
 msgid "You are not authorized to remove shared access from this ticket."
 msgstr ""
 
-#: app/graphql/gql/mutations/ticket/shared_access/share.rb:39
+#: app/graphql/gql/mutations/ticket/shared_access/share.rb:42
 msgid "You are not authorized to share this ticket."
 msgstr ""
 
@@ -20400,19 +20413,19 @@ msgstr ""
 msgid "You are part of the BETA UI feedback program."
 msgstr ""
 
-#: app/models/transaction/notification.rb:178
+#: app/models/transaction/notification.rb:196
 msgid "You are receiving this because this ticket was shared with you."
 msgstr ""
 
-#: app/models/transaction/notification.rb:127
+#: app/models/transaction/notification.rb:145
 msgid "You are receiving this because you are a member of the group of this ticket."
 msgstr ""
 
-#: app/models/transaction/notification.rb:997
+#: app/models/transaction/notification.rb:1015
 msgid "You are receiving this because you are out-of-office replacement for a participant of this ticket."
 msgstr ""
 
-#: app/models/transaction/notification.rb:121
+#: app/models/transaction/notification.rb:139
 msgid "You are receiving this because you were mentioned in this ticket."
 msgstr ""
 
@@ -20559,7 +20572,7 @@ msgid "You can use the following script to post the data to %s."
 msgstr ""
 
 #: app/controllers/ticket_shared_accesses_controller.rb:19
-#: app/graphql/gql/mutations/ticket/shared_access/share.rb:43
+#: app/graphql/gql/mutations/ticket/shared_access/share.rb:46
 msgid "You cannot share a ticket with yourself."
 msgstr ""
 
@@ -21211,7 +21224,7 @@ msgstr ""
 msgid "delete"
 msgstr ""
 
-#: app/assets/javascripts/app/controllers/article_view/item.coffee:158
+#: app/assets/javascripts/app/controllers/article_view/item.coffee:157
 #: app/frontend/shared/entities/ticket/channel/composables/useWhatsapp.ts:18
 msgid "delivered to the customer"
 msgstr ""
@@ -22067,7 +22080,7 @@ msgstr ""
 msgid "reacted with a %s to message from %s '%s'"
 msgstr ""
 
-#: app/assets/javascripts/app/controllers/article_view/item.coffee:155
+#: app/assets/javascripts/app/controllers/article_view/item.coffee:154
 #: app/frontend/shared/entities/ticket/channel/composables/useWhatsapp.ts:11
 msgid "read by the customer"
 msgstr ""
@@ -22165,7 +22178,7 @@ msgstr ""
 msgid "select visible options"
 msgstr ""
 
-#: app/assets/javascripts/app/controllers/article_view/item.coffee:161
+#: app/assets/javascripts/app/controllers/article_view/item.coffee:160
 #: app/frontend/shared/entities/ticket/channel/composables/useWhatsapp.ts:22
 msgid "sent to the customer"
 msgstr ""
