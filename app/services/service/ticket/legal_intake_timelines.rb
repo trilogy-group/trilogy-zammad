@@ -27,9 +27,12 @@ class Service::Ticket::LegalIntakeTimelines < Service::Base
 
   Event = Struct.new(:kind, :at, :by, :from, :to, :id_from, :id_to, keyword_init: true)
 
-  def initialize(tickets)
+  # agent_view: the caller is on the legal side. Customers never get staff
+  # email addresses (Zammad's UserPolicy hides them) nor the coordinator.
+  def initialize(tickets, agent_view:)
     super()
     @tickets = tickets
+    @agent_view = agent_view
   end
 
   def execute
@@ -39,7 +42,7 @@ class Service::Ticket::LegalIntakeTimelines < Service::Base
     events   = load_events(ids)
     articles = load_articles(ids)
     tags     = load_tags(ids)
-    load_users(events.values.flatten.map(&:by) + articles.values.flatten.pluck(:by) + @tickets.map(&:owner_id))
+    load_users(events.values.flatten.map(&:by) + articles.values.flatten.pluck(:by) + @tickets.flat_map { |t| [t.owner_id, t.created_by_id] })
 
     @tickets.map do |ticket|
       timeline_for(ticket, events[ticket.id] || [], articles[ticket.id] || [], tags[ticket.id] || [])
@@ -96,8 +99,9 @@ class Service::Ticket::LegalIntakeTimelines < Service::Base
       .each_with_object(Hash.new { |h, k| h[k] = [] }) { |(o_id, name), acc| acc[o_id] << name }
   end
 
-  def load_users(user_ids)
-    @users = User.where(id: user_ids.compact.uniq).includes(:roles).index_by(&:id)
+  def load_users(user_ids) # rubocop:disable Metrics/AbcSize
+    # Roles + their permissions in one go (User#permissions? queries per user).
+    @users = User.where(id: user_ids.compact.uniq).includes(roles: :permissions).index_by(&:id)
     @human = {}
     @legal = {}
     @legal_admin = {}
@@ -105,8 +109,9 @@ class Service::Ticket::LegalIntakeTimelines < Service::Base
       local = user.email.to_s.downcase.split('@').first.to_s
       service = id == SYSTEM_USER_ID || SERVICE_LOCAL_PARTS.include?(local)
       @human[id] = !service
-      @legal[id] = !service && user.permissions?('ticket.agent')
-      @legal_admin[id] = !service && user.roles.any? { |r| r.name == LEGAL_ADMIN_ROLE }
+      roles = user.roles.select(&:active)
+      @legal[id] = !service && user.active && roles.any? { |r| r.permissions.any? { |p| p.active && %w[ticket ticket.agent].include?(p.name) } }
+      @legal_admin[id] = !service && roles.any? { |r| r.name == LEGAL_ADMIN_ROLE }
     end
   end
 
@@ -116,7 +121,7 @@ class Service::Ticket::LegalIntakeTimelines < Service::Base
     user = user_id && @users[user_id]
     return nil if user.nil?
 
-    { id: user.id, name: user.fullname.presence, email: user.email.presence }
+    { id: user.id, name: user.fullname.presence, email: @agent_view ? user.email.presence : nil }
   end
 
   def human?(user_id)        = @human[user_id] == true
@@ -153,8 +158,8 @@ class Service::Ticket::LegalIntakeTimelines < Service::Base
       owner:                    person(ticket.owner_id == SYSTEM_USER_ID ? nil : ticket.owner_id),
       assigned_at:              assigned[:at],
       assigned_by_id:           assigned[:by],
-      legal_admin_assigner_id:  assigned[:legal_admin_by],
-      legal_admin_assigner:     person(assigned[:legal_admin_by]),
+      legal_admin_assigner_id:  @agent_view ? assigned[:legal_admin_by] : nil,
+      legal_admin_assigner:     @agent_view ? person(assigned[:legal_admin_by]) : nil,
       waiting_on_legal_since:   waiting_since,
       last_legal_action_at:     last_legal,
       last_requester_action_at: requester_actions.max,
@@ -184,12 +189,18 @@ class Service::Ticket::LegalIntakeTimelines < Service::Base
   # Who assigned the CURRENT owner: the latest owner change to them; plus the
   # latest change on the ticket made by a Legal Admin (the coordinator who
   # routed it), walking back past attorney hand-offs.
-  def assignment(ticket, events)
+  def assignment(ticket, events) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
     owner_events = events.select { |e| e.kind == :owner }
     return {} if ticket.owner_id.nil? || ticket.owner_id == SYSTEM_USER_ID
 
     to_owner = owner_events.reverse.find { |e| e.id_to == ticket.owner_id }
     by_admin = owner_events.reverse.find { |e| e.id_to.present? && e.id_to != SYSTEM_USER_ID && legal_admin?(e.by) }
+    # Created with an owner: history records the creation, not an owner
+    # change, so the creator assigned it.
+    if to_owner.nil? && owner_events.none?
+      creator = ticket.created_by_id
+      return { at: ticket.created_at, by: creator, legal_admin_by: legal_admin?(creator) ? creator : nil }
+    end
     { at: to_owner&.at, by: to_owner&.by, legal_admin_by: by_admin&.by }
   end
 

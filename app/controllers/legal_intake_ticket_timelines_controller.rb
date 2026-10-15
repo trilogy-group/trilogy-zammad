@@ -18,7 +18,11 @@ class LegalIntakeTicketTimelinesController < ApplicationController
   def index
     tickets = TicketPolicy::ReadScope.new(current_user).resolve.where(id: requested_ids).to_a
 
-    render json: { timelines: Service::Ticket::LegalIntakeTimelines.new(tickets).execute }
+    timelines = Service::Ticket::LegalIntakeTimelines
+      .new(tickets, agent_view: current_user.permissions?('ticket.agent'))
+      .execute
+
+    render json: { timelines: timelines }
   end
 
   private

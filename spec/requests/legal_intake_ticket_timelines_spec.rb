@@ -130,6 +130,28 @@ RSpec.describe 'Legal Intake ticket timelines', :aggregate_failures, type: :requ
       expect(t['legal_admin_assigner_id']).to eq(coordinator.id)
     end
 
+    it 'credits the creator when the ticket was created with an owner' do
+      created = create(:ticket, group: group, customer: customer, owner: attorney, created_by: coordinator)
+      authenticated_as(attorney)
+      t = timelines([created.id]).first
+      expect(t['assigned_by_id']).to eq(coordinator.id)
+      expect(t['legal_admin_assigner_id']).to eq(coordinator.id)
+    end
+
+    it 'gives customers no staff emails and no coordinator' do
+      authenticated_as(customer)
+      t = timelines([ticket.id]).first
+      expect(t['owner']).to include('id' => attorney.id, 'email' => nil)
+      expect(t['legal_admin_assigner']).to be_nil
+      expect(t['legal_admin_assigner_id']).to be_nil
+      expect(response.body).not_to include(coordinator.email)
+    end
+
+    it 'gives agents staff emails' do
+      authenticated_as(attorney)
+      expect(timelines([ticket.id]).first['owner']).to include('email' => attorney.email)
+    end
+
     it 'reports the escalated tag' do
       as_user(coordinator) { ticket.tag_add('escalated', coordinator.id) }
       authenticated_as(customer)
