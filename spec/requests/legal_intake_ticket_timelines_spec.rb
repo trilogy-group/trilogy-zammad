@@ -138,6 +138,21 @@ RSpec.describe 'Legal Intake ticket timelines', :aggregate_failures, type: :requ
       expect(t['legal_admin_assigner_id']).to eq(coordinator.id)
     end
 
+    it 'keeps counting a reply by an attorney who was later deactivated' do
+      create(:ticket_article, ticket: ticket, sender_name: 'Agent', internal: false, created_by: attorney, created_at: 1.hour.ago)
+      attorney.update!(active: false)
+      authenticated_as(coordinator)
+      expect(timelines([ticket.id]).first['last_legal_action_at']).to be_present
+    end
+
+    it 'keeps the creating Legal Admin as coordinator after an attorney hand-off' do
+      other = create(:agent, groups: [group])
+      created = create(:ticket, group: group, customer: customer, owner: attorney, created_by: coordinator)
+      created.update!(owner: other, updated_by_id: attorney.id)
+      authenticated_as(coordinator)
+      expect(timelines([created.id]).first['legal_admin_assigner_id']).to eq(coordinator.id)
+    end
+
     it 'gives customers no staff emails and no coordinator' do
       authenticated_as(customer)
       t = timelines([ticket.id]).first

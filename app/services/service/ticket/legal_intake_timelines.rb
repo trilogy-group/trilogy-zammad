@@ -110,7 +110,9 @@ class Service::Ticket::LegalIntakeTimelines < Service::Base
       service = id == SYSTEM_USER_ID || SERVICE_LOCAL_PARTS.include?(local)
       @human[id] = !service
       roles = user.roles.select(&:active)
-      @legal[id] = !service && user.active && roles.any? { |r| r.permissions.any? { |p| p.active && %w[ticket ticket.agent].include?(p.name) } }
+      # Not gated on user.active: a deactivated attorney's past reply still
+      # counts as a legal response.
+      @legal[id] = !service && roles.any? { |r| r.permissions.any? { |p| p.active && %w[ticket ticket.agent].include?(p.name) } }
       @legal_admin[id] = !service && roles.any? { |r| r.name == LEGAL_ADMIN_ROLE }
     end
   end
@@ -197,11 +199,13 @@ class Service::Ticket::LegalIntakeTimelines < Service::Base
     by_admin = owner_events.reverse.find { |e| e.id_to.present? && e.id_to != SYSTEM_USER_ID && legal_admin?(e.by) }
     # Created with an owner: history records the creation, not an owner
     # change, so the creator assigned it.
-    if to_owner.nil? && owner_events.none?
-      creator = ticket.created_by_id
-      return { at: ticket.created_at, by: creator, legal_admin_by: legal_admin?(creator) ? creator : nil }
-    end
-    { at: to_owner&.at, by: to_owner&.by, legal_admin_by: by_admin&.by }
+    creator = ticket.created_by_id
+    creator_admin = legal_admin?(creator) ? creator : nil
+    return { at: ticket.created_at, by: creator, legal_admin_by: creator_admin } if to_owner.nil? && owner_events.none?
+
+    # A Legal Admin who created the ticket with an owner routed it, even if
+    # attorneys have handed it on since.
+    { at: to_owner&.at, by: to_owner&.by, legal_admin_by: by_admin&.by || creator_admin }
   end
 
   # The `escalated` tag is the single source of truth. Removal history keeps
